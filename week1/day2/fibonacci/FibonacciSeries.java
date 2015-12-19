@@ -1,5 +1,4 @@
 
-
 class FibonacciSeries{
 	int N;
 
@@ -8,11 +7,11 @@ class FibonacciSeries{
 	}
 
 	public void getFiboSeries(){
-		int preNum1,preNum2,value=0;
+		int loopVar,preNum1,preNum2,value=0;
 		preNum1 = 0;
 		preNum2 = 0;
 
-		while( (value + preNum2) <=  N){
+		for(loopVar = 0;loopVar < N;loopVar++){
 			if(preNum1==0 && preNum2==0){
 				value = 1;
 				System.out.print(value + " ");
