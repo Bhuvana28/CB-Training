@@ -1,5 +1,6 @@
 //program to calculate simple and compund interests.
 
+package interests;
 import java.lang.Math;
 
 public class InterestCalculator{

@@ -1,5 +1,7 @@
 //Program to print the smallest and largest number in an integer array.
 
+package smallestLargestNumbers;
+
 import java.util.Scanner;
 
 

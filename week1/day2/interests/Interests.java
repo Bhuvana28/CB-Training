@@ -1,5 +1,7 @@
 //Program to find simple and compound interest
 
+package interests;
+
 import java.util.Scanner;
 
 class Interests{

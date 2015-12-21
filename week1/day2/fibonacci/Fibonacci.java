@@ -1,5 +1,6 @@
 //Program to print Fibonacci series upto N number.
 
+package fibonacci;
 import java.util.Scanner;
 
 class Fibonacci{

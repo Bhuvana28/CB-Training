@@ -1,4 +1,6 @@
 
+package fibonacci;
+
 class FibonacciSeries{
 	int N;
 

@@ -1,4 +1,5 @@
 
+package smallestLargestNumbers;
 
 class findSmallandLargeNumbers{
 		
