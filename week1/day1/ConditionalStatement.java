@@ -13,13 +13,8 @@ class ConditionalStatement{
 		z = scanner.nextInt();
 		
 		//Find minimum of x,y,z
-		if(x < y && x < z){
-			System.out.println("Minimum is " + x);
-		}else if(y < x && y < z){
-			System.out.println("Minimum is " + y);
-		}else{
-			System.out.println("Minimum is " + z);
-		}
+        System.out.println("min = " + ((x < y && x < z) ? x : (y<x && y<z) ? y : z));
+		
 	}
 
 }

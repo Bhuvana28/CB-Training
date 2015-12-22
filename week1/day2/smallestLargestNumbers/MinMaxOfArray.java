@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections; 
 
 class MinMaxOfArray{
-	ArrayList<Integer> array = new ArrayList();
+	ArrayList<Integer> array = new ArrayList<Integer>();
 
 	public MinMaxOfArray(ArrayList<Integer> array){
 		this.array = array;

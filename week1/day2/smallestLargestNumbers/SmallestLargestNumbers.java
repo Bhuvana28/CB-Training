@@ -8,7 +8,7 @@ import java.util.ArrayList;
 class SmallestLargestNumbers{
 
 	public static void main(String args[]){
-		ArrayList<Integer> intArray = new ArrayList();
+		ArrayList<Integer> intArray = new ArrayList<Integer>();
 		int loopVar,n;
 
 		Scanner scanner = new Scanner(System.in);

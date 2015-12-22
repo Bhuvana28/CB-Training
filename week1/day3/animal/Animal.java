@@ -4,12 +4,15 @@ import java.util.Scanner;
 
 class Animal{
 
-	String name,category,breed;
+	String name,category;
 	int age;
 
 	public static int noOfAnimals = 0;
 
-	public Animal(){
+	public Animal(String category,String name, int age){
+		this.category = category;
+		this.name = name;
+		this.age = age;
 		noOfAnimals++;
 	}
 
@@ -21,58 +24,34 @@ class Animal{
 		return(a.category);
 	}
 
-	public String getAnimalBreed(Animal a){
-		return(a.breed);
-	}
-
 	public int getAnimalAge(Animal a){
 		return(a.age);
 	}
 
-	public void setAnimalName(String name){
-		this.name = name;
-	}
-
-	public void setAnimalCategory(String category){
-		this.category = category;
-	}
-
-	public void setAnimalBreed(String breed){
-		this.breed = breed;
-	}
-
-	public void setAnimalAge(int age){
-		this.age = age;
-	}
-
-
 	public static void main(String args[]){
-		String ctg,name,breed;
+		String ctg,name;
 		int age;
 		char proceed;
-
 		Scanner scanner = new Scanner(System.in);
+
 		do{
 
 			System.out.println("Enter Animal Details.");
-			System.out.print("Category : ");
-			ctg = scanner.nextLine();
-			System.out.print("Breed : ");
-			breed = scanner.nextLine();
-			System.out.print("Name : ");
-			name = scanner.nextLine();
-			System.out.println("Age : ");
-			age = nextInt();
+			System.out.print("Category 	: ");
+			ctg = scanner.next();
+			System.out.print("Name 		: ");
+			name = scanner.next();
+			System.out.print("Age 		: ");
+			age = scanner.nextInt();
 
-			Animal a = new Animal(ctg,breed,name,age);
+			Animal a = new Animal(ctg,name,age);
 
 			System.out.println("Number of animals  =  " + Animal.noOfAnimals);
 
-			System.out.println("Do you enter more animals details(y/n) : ");
-			proceed = scanner.nextChar();
+			System.out.println("Do you want to continue(y/n) : ");
+			proceed = scanner.next(".").charAt(0);
 
-		}while(true)
-
+		}while(proceed == 'y');
 
 	}
 }
