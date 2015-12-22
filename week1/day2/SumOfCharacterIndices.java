@@ -5,7 +5,7 @@ import java.util.Scanner;
 class SumOfCharacterIndices{
 
 	public static void main(String args[]){
-		int loopVar,sum=0;
+		int sum=0;
 		String string;
 		char[] charArray;
 		Scanner scanner = new Scanner(System.in);
@@ -14,20 +14,15 @@ class SumOfCharacterIndices{
 		string = scanner.nextLine();
 		charArray = string.toCharArray();
 
-		for(loopVar=0;loopVar<charArray.length;loopVar++){
-			
-			if((int)charArray[loopVar] > 96 && (int)charArray[loopVar] <123){
-				sum = sum + (int)charArray[loopVar]-96;
-			}else if((int)charArray[loopVar] > 64 && (int)charArray[loopVar] < 91){
-				sum = sum + (int)charArray[loopVar] - 64;
+		for(char character : charArray){
+			if((int)character > 96 && (int)character <123){
+				sum = sum + (int)character - 96;
+			}else if((int)character > 64 && (int)character < 91){
+				sum = sum + (int)character - 64;
 			}
 				
 		}
 
-		if(sum%2 == 0){
-			System.out.println("even");
-		}else{
-			System.out.println("odd");
-		}
+        System.out.println(sum%2 == 0 ? "even": "odd");
 	}
 }

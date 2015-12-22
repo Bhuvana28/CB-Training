@@ -7,23 +7,21 @@ import java.util.Scanner;
 class Interests{
 
 	public static void main(String args[]){
-		double principal,interestRate,termOfLoan,simpleInterest, compoundInterest;
+		double principal,interestRate,termOfLoan;
 		Scanner scanner = new Scanner(System.in);
 		
 		System.out.print("Principal : ");
 		principal = scanner.nextDouble();
-		System.out.print("Interest Rate : ");
+		System.out.print("Interest Percentage : ");
 		interestRate = scanner.nextDouble();
 		System.out.print("Term of Loan : ");
 		termOfLoan = scanner.nextDouble();
 
 		InterestCalculator calc = new InterestCalculator(principal,interestRate,termOfLoan);
 
-		simpleInterest = calc.getSimpleInterest();
-		compoundInterest = calc.getCompoundInterest();
 
-		System.out.println("Simple Interest = " + simpleInterest);
-		System.out.println("Compound Interest = " + compoundInterest);
+		System.out.println("Simple Interest = " + calc.getSimpleInterest());
+		System.out.println("Compound Interest = " + calc.getCompoundInterest());
 
 	}
 

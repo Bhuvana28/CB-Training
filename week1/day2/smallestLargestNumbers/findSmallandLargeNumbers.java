@@ -8,7 +8,6 @@ class findSmallandLargeNumbers{
 
 	public findSmallandLargeNumbers(int n, int[] array){
 		this.n = n;
-		this.array = new int[n];
 		this.array = array;
 	}
 

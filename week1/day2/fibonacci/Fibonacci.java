@@ -6,13 +6,13 @@ import java.util.Scanner;
 class Fibonacci{
 	
 	public static void main(String args[]){
-		int N;
+		int n;
 		Scanner scanner = new Scanner(System.in);
 
 		System.out.print("Enter N:");
-		N = scanner.nextInt();
+		n = scanner.nextInt();
 
-		FibonacciSeries fibo = new FibonacciSeries(N);
+		FibonacciSeries fibo = new FibonacciSeries(n);
 		fibo.getFiboSeries();
 	}
 }

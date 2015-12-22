@@ -4,7 +4,7 @@ package interests;
 import java.lang.Math;
 
 public class InterestCalculator{
-	double principal,interestRate,termOfLoan,simpleInterest, compoundInterest;
+	double principal,interestRate,termOfLoan;
 
 	public InterestCalculator(double p, double i, double n){
 		principal = p;
@@ -13,13 +13,13 @@ public class InterestCalculator{
 	}
 
 	public double getSimpleInterest(){
-		simpleInterest = principal * interestRate * termOfLoan;
-		return simpleInterest;
+		return(principal * (interestRate/100) * termOfLoan);
+		
 	}
 
 	public double getCompoundInterest(){
-		compoundInterest = principal * Math.pow((1+interestRate),termOfLoan) - principal;
-		return compoundInterest;
+		return(principal * Math.pow((1+(interestRate/100)),termOfLoan) - principal);
+		
 	}
 
 }
