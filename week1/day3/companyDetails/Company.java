@@ -10,7 +10,7 @@ class Company{
 		this.name = name;
 		this.place = place;
 	}
-
+s
 	Company(String name, String place, Employee employee){
 		this.name = name;
 		this.place = place;
