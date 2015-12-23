@@ -1,26 +1,13 @@
-package complanyDetails;
+package companyDetails;
 
 class IncomeTaxCalculator{
-	private int taxPercent = 0;
-	private float taxableAmount = 0;
+	
 
-	public void getTaxAmountForFemale(double income){
-        if (income <= 190000) {
+	public static int getTax(float income,float basicExemption){
+	int taxPercent;
+		if (income <= basicExemption) {
             taxPercent = 0;
-        }else if (income >= 190001 && income <= 500000) {
-            taxPercent = 10;
-        }else if (income >= 500001  && income <= 800000) {
-            taxPercent = 20;
-        }else if(income >= 800001){
-        	taxPercent = 30;
-        }
-
-	}
-
-	public getTaxAmountForMale(double income){
-		if (income <= 180000) {
-            taxPercent = 0;
-        } else if (income >= 180001 && income <= 500000) {
+        } else if (income >= basicExemption && income <= 500000) {
             taxPercent = 10;
         } else if (income >= 500001  && income <= 800000) {
             taxPercent = 20;
@@ -28,10 +15,43 @@ class IncomeTaxCalculator{
         	taxPercent = 30;
         }
 
-	}
+       return(taxPercent);
+	} 
 
-	public static double calculateIncomeTax(Employee employee){
-		dfds
+	public static void calculateIncomeTax(Company company){
+		int taxPercent;
+		float basicExemption,taxableAmount,income;
+
+		for(Employee employee : company.getEmployees()){
+			taxableAmount = 0;
+			basicExemption = employee.getEmployeeGender() == 'M' ? 180000 : 190000;
+			income = employee.getEmployeeIncome();
+			taxPercent = getTax(income,basicExemption);
+			
+			switch(taxPercent){
+
+				case 30 : 	
+							taxableAmount = (income - 800000)* ((float)30/100);
+							taxableAmount += (800000 - 500000) * ((float)20/100);
+							taxableAmount += (500000 - basicExemption) * ((float)10/100);
+							break;
+
+				case 20 : 	
+							taxableAmount = (income - 500000) * ((float)20/100);
+							taxableAmount += (500000 - basicExemption) * ((float)10/100);
+							break;
+
+				case 10 :	
+							taxableAmount = (500000 - basicExemption) * ((float)10/100);
+							break;
+
+			}
+
+
+			System.out.println(employee.getEmployeeName() + " | " + employee.getEmployeeGender() + " | " + income + " | " + taxableAmount);
+	
+		}
+		
 	}
 
 }

@@ -5,12 +5,21 @@ class Employee{
 	private char gender;
 	private float income;
 
-	Employee(String name, char gender){
+	/*Employee(String name, char gender, float income){
 		this.name = name;
+		this.gender = gender;
+		this.income = income;
+	}*/
+
+	public void setEmployeeName(String name){
+		this.name = name;
+	}
+
+	public void setEmployeeGender(char gender){
 		this.gender = gender;
 	}
 
-	public Sring getEmployeeName(){
+	public String getEmployeeName(){
 		return(name);
 	}
 
@@ -18,12 +27,12 @@ class Employee{
 		return(gender);
 	}
 
-	public int getEmployeeIncome(){
+	public float getEmployeeIncome(){
 		return(income);
 	}
 
 	public void setEmployeeIncome(float income){
 		this.income = income;
 	}
-s
+
 }
