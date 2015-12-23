@@ -1,10 +1,11 @@
-package bookStore;
+package bookStore.book;
 
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
+import bookStore.author.Author;
 
-class Book{
+public class Book{
 	private String name;
 	private ArrayList<Author> authors = new ArrayList<Author>();
 	private double price;

@@ -34,15 +34,11 @@ class Company{
 	public void printEmployeesDetails(){
 		System.out.println("Employees : ");
 		for(Employee employee : employees){
-			System.out.println("Name : "+ employee.getEmployeeName() + "		Gender : " + employee.getEmployeeGender() + "	Income : " + employee.getEmployeeIncome());
-		}
+			System.out.println(employee.getEmployeeName() + " | " + employee.getEmployeeGender() + " | " + employee.getEmployeeIncome() + " | " + employee.getEmployeeTaxableAmount());
+		}	
 	}
 
-	public void addEmployee(String name, char gender, float income){
-		Employee employee = new Employee();
-		employee.setEmployeeName(name);
-		employee.setEmployeeGender(gender);
-		employee.setEmployeeIncome(income);
+	public void addEmployee(Employee employee){
 		employees.add(employee);
 	}
 

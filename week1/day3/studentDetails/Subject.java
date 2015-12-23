@@ -1,8 +1,8 @@
 package studentDetails;
 
 class Subject{
-	String subject1,subject2,subject3;
-	float marks1,marks2,marks3;
+	private String subject1,subject2,subject3;
+	private float marks1,marks2,marks3;
 
 	//set methods for instance variables.
 	public void setSubject1(String subject){

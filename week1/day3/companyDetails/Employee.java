@@ -3,36 +3,31 @@ package companyDetails;
 class Employee{
 	private String name;
 	private char gender;
-	private float income;
+	private double income;
+	private double taxableIncome;
 
-	/*Employee(String name, char gender, float income){
+	Employee(String name, char gender, double income){
+		float basicExemption;
 		this.name = name;
 		this.gender = gender;
 		this.income = income;
-	}*/
-
-	public void setEmployeeName(String name){
-		this.name = name;
-	}
-
-	public void setEmployeeGender(char gender){
-		this.gender = gender;
+		basicExemption = (gender == 'M') ? 180000 : 190000;
+		taxableIncome = IncomeTaxCalculator.calculateIncomeTax(income,basicExemption);
 	}
 
 	public String getEmployeeName(){
 		return(name);
 	}
-
-	public char getEmployeeGender(){
+	
+	char getEmployeeGender(){
 		return(gender);
 	}
 
-	public float getEmployeeIncome(){
+	public double getEmployeeIncome(){
 		return(income);
 	}
 
-	public void setEmployeeIncome(float income){
-		this.income = income;
+	public double getEmployeeTaxableAmount(){
+		return(taxableIncome);
 	}
-
 }

@@ -2,7 +2,7 @@
 package fibonacci;
 
 class FibonacciSeries{
-	int n;
+	private int n;
 
 	public FibonacciSeries(int n){
 		this.n = n;

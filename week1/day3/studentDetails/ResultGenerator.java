@@ -6,7 +6,7 @@ class ResultGenerator{
 	public static void generateResult(Student student){
 		float totalMark,avgMark;
 		Subject subject = student.getStudentSubjects();
-		totalMark = subject.marks1 + subject.marks2 + subject.marks3;
+		totalMark = subject.getSubject1Mark() + subject.getSubject2Mark() + subject.getSubject3Mark();
 		avgMark = totalMark/3;
 		System.out.println("			Student	Report");
 		System.out.println("ID : "+student.getStudentId() + "		Name : " + student.getStudentName() + "		Gender : "+student.getStudentGender());

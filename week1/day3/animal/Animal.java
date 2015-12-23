@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 class Animal{
 
-	String name,category;
-	int age;
+	private String name,category;
+	private int age;
 
 	public static int noOfAnimals = 0;
 

@@ -1,10 +1,10 @@
 package studentDetails;
 
 class Student{
-	int studentId;
-	String studentName;
-	boolean gender;
-	Subject subjects = new Subject();
+	private int studentId;
+	private String studentName;
+	private boolean gender;
+	private Subject subjects = new Subject();
 
 	//set instance variables methods.
 	public void setStudentId(int id){

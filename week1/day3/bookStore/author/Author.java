@@ -1,13 +1,14 @@
-package bookStore;
+
+package bookStore.author;
 
 import java.util.Scanner;
 
-class Author{
-
+public class Author{
+	//private final static String publication = null;
 	private String name, email;
 	private char gender;
 
-	Author(String name,String email,char gender){
+	public Author(String name,String email,char gender){
 		this.name = name;
 		this.email = email;
 		this.gender = gender;

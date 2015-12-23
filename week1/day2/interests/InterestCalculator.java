@@ -4,7 +4,7 @@ package interests;
 import java.lang.Math;
 
 public class InterestCalculator{
-	double principal,interestRate,termOfLoan;
+	private double principal,interestRate,termOfLoan;
 
 	public InterestCalculator(double p, double i, double n){
 		principal = p;
