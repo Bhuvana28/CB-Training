@@ -1,6 +1,6 @@
 package animals;
 
-public class Cow extends Mammal implements Walk, Herbivorous{
+public class Cow extends Mammal implements Herbivorous{
 
 	public Cow(int noOfLegs,String color,String name, float heightInCM){
 		super( noOfLegs, color, name, heightInCM);

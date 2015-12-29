@@ -77,7 +77,21 @@ public class Zoo{
 	}
 
 	public void displayHerbivores(ArrayList<Animal> animalList){
-			
+		System.out.println("List of Herbivorous animals :");
+			for(Animal animal : animalList){
+				if(animal instanceof Herbivorous){
+					System.out.println(animal.getName());
+				}
+			}
+	}
+
+	public void displayFly(ArrayList<Animal> animalList){
+		System.out.println("List of animals can fly:");
+			for(Animal animal : animalList){
+				if(animal instanceof CanFly){
+					System.out.println(animal.getName());
+				}
+			}
 	}
 
 	public static void main(String  args[]){
@@ -85,5 +99,7 @@ public class Zoo{
 		Zoo zoo = new Zoo();
 
 		zoo.storeInput(animalList);
+		zoo.displayFly(animalList);
+		zoo.displayHerbivores(animalList);
 	}
 }
