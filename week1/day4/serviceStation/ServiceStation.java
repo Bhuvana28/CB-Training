@@ -23,6 +23,13 @@ public class ServiceStation{
 	}
 
 	public void storeEmployeeData(){
+		/*Employee e = new Employee("a",28,"9383487631");
+		Customer c = new Customer("aa",28,"8758736993");
+		Vehicle v = new Vehicle("bus","Orange","Seater","Blue",300);
+		Invoice invoice= new Invoice(c,v,e);
+		c.addInvoice(invoice);
+		e.addInvoice(invoice);*/
+
 		employees.add(new Employee("a",28,"9383487631"));
 		employees.add(new Employee("b",25,"8383487631"));
 		employees.add(new Employee("c",27,"9723643543"));
@@ -56,11 +63,18 @@ public class ServiceStation{
 	}
 
 	public void printCustomerInvoices(){
-		customers.get(0).printInvoices();
+		for(Customer cust : customers){
+			cust.printInvoices();	
+		}
+		
+
 	}
 
 	public void printEmployeeInvoices(){
-		employees.get(0).printInvoices();
+		for(Employee emp : employees){
+			emp.printInvoices();	
+		}
+		
 	}
 
 
