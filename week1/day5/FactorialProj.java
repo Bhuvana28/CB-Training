@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class Factorial implements Iterable{
+class Factorial implements Iterable<Integer>{
 	private Integer lowerLimit;
 	private Integer upperLimit;
 
@@ -11,16 +11,16 @@ class Factorial implements Iterable{
 		this.upperLimit = upperLimit;
 	}
 
-	class FactorialIterator implements Iterator{
+	class FactorialIterator implements Iterator<Integer>{
   		private Integer currentValue;
 
   		public FactorialIterator(){
-  			this.currentValue = Factorial.this.lowerLimit;
+  			currentValue = Factorial.this.lowerLimit;
   		}
 
 		@Override
 		public boolean hasNext(){
-			return this.currentValue <= Factorial.this.upperLimit;
+			return currentValue <= Factorial.this.upperLimit;
 		}
 
 		@Override
@@ -35,7 +35,7 @@ class Factorial implements Iterable{
 	}
 
 	@Override
-	public FactorialIterator iterator(){
+	public Iterator<Integer> iterator(){
 		return(new FactorialIterator());
 	}
 
@@ -55,9 +55,9 @@ class Factorial implements Iterable{
 		while(it.hasNext()){
 			Integer value = it.next();
 			if(it.hasNext()){
-				str = str + String.valueOf(factorial(value)) + ", ";	
+				str = str + factorial(value) + ", ";	
 			}else{
-				str =str+String.valueOf(factorial(value))+"\n";		
+				str =str+ factorial(value) +"\n";		
 			}	
 		}
 		

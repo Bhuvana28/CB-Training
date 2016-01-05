@@ -1,12 +1,11 @@
 
-//import java.util.Scanner;
-//import java.util.ArrayList;
 import java.util.*;
 
 class Employee{
-	String name;
-	Double salary;
-	Integer age;
+	
+	private String name;
+	private Double salary;
+	private Integer age;
 
 	public Employee(String name, Double salary, Integer age){
 		this.name = name;
@@ -26,9 +25,9 @@ class Employee{
 		return age;
 	}
 
-	public void print(){
-		System.out.println("------------------------------------------------");
-		System.out.println("Name : "+name + "	Salary  : " + salary + "	Age: "+ age);
+	public String print(){
+		String str = "------------------------------------------------" + "\n" + "Name : "+name + "	Salary  : " + salary + "	Age: "+ age + "\n";
+		return str;
 	}
 	
 }
@@ -46,56 +45,23 @@ public class EmployeeProject{
 	}
 
 	public void sortName(){
-		Collections.sort(empList,new Comparator(){
-			public int compare(Object o1,Object o2){  
-				Employee emp1 = (Employee)o1;
-				Employee emp2 = (Employee)o2;
-
-				return emp1.name.compareTo(emp2.name);  
-			} 
-		}); 
+		Collections.sort(empList,(Employee emp1, Employee emp2) -> emp1.getName().compareTo(emp2.getName()));   
 		display(); 
 	}
 
 	public void sortSalary(){
-		Collections.sort(empList,new Comparator(){
-			public int compare(Object o1,Object o2){  
-				Employee emp1 = (Employee)o1;
-				Employee emp2 = (Employee)o2;
-
-				if(emp1.salary == emp2.salary)  
-					return 0;  
-				else if(emp1.salary > emp2.salary)  
-					return 1;  
-				else  
-					return -1;  
-			}  
-
-		});  
+		Collections.sort(empList,(Employee emp1, Employee emp2) -> emp1.getSalary().compareTo(emp2.getSalary()));  
 		display();
 	}
 
 	public void sortAge(){
-		Collections.sort(empList,new Comparator(){
-			public int compare(Object o1,Object o2){  
-				Employee emp1 = (Employee)o1;
-				Employee emp2 = (Employee)o2;
-
-				if(emp1.age == emp2.age)  
-					return 0;  
-				else if(emp1.age > emp2.age)  
-					return 1;  
-				else  
-					return -1;  
-			} 
-		});  
+		Collections.sort(empList,(Employee emp1, Employee emp2) -> emp1.getAge().compareTo(emp2.getAge()));  
 		display();
 	}
 
+
 	public void display(){
-		for(Employee emp : empList){
-			emp.print();
-		}
+		empList.forEach((emp) -> {System.out.println(emp.print()); });
 	}
 
 	public static void main(String[] args){
