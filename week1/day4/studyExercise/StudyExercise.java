@@ -16,17 +16,27 @@ interface A extends ab{
 
 
 class A implements B{
+	@Override
+	public void print(){
+		System.out.println("Hai");
+	}
+}
+
+class c implements B{
+	@Override
 	public void print(){
 		System.out.println("Hai");
 	}
 }
 
 interface B {
+	public void print();
 }
 
 public class StudyExercise{
 	public static void main(String[] args){
-		B b = new A();
+		B b1 = new c();
+		B b2 = new A();
 		b.print();
 		System.out.println("Hello");
 	}
