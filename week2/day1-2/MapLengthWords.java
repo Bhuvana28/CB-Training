@@ -11,11 +11,15 @@ public class MapLengthWords{
 		
 		for(String s:words){
 			Integer wordLen = s.length();
-			ArrayList<String> wordList = wordsMap.get(wordLen);	
-			if(wordList == null){
-				wordsMap.put(wordLen,wordList=new ArrayList<String>());				
+			ArrayList<String> wordList=new ArrayList<String>();	
+			if(wordsMap.containsKey(wordLen)){
+				wordList = wordsMap.get(wordLen);		
 			}
 			wordList.add(s);
+			wordsMap.put(wordLen,wordList);
+			/*if(wordList == null){
+				wordsMap.put(wordLen,wordList=new ArrayList<String>());				
+			}*/
 		}
 
 		System.out.println(wordsMap);

@@ -11,11 +11,12 @@ public class MapPrefixWords{
 		
 		for(String str : words){
 			String prefix = str.substring(0, Math.min(str.length(), 3));
-			ArrayList<String> wordList = wordsMap.get(prefix);	
-			if(wordList == null){
-				wordsMap.put(prefix,wordList = new ArrayList<String>());				
+			ArrayList<String> wordList=new ArrayList<String>();	
+			if(wordsMap.containsKey(prefix)){
+				wordList = wordsMap.get(prefix);		
 			}
 			wordList.add(str);
+			wordsMap.put(prefix,wordList);
 		}
 
 		for(String key : wordsMap.keySet()){

@@ -44,7 +44,7 @@ class Factorial implements Iterable<Integer>{
 	private Integer factorial(Integer number){
 		if(number.equals(0)){
 			return 1;
-		} else{
+		}else{
 			return number * factorial(number-1);
 		}
 	}
