@@ -1,0 +1,2 @@
+This is a sample input to calculated the word occurrences in this file
+This is second line

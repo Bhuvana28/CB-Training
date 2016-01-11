@@ -11,10 +11,7 @@ public class MapPrefixWords{
 		
 		for(String str : words){
 			String prefix = str.substring(0, Math.min(str.length(), 3));
-			ArrayList<String> wordList=new ArrayList<String>();	
-			if(wordsMap.containsKey(prefix)){
-				wordList = wordsMap.get(prefix);		
-			}
+			ArrayList<String> wordList=wordsMap.containsKey(prefix)?wordsMap.get(prefix):new ArrayList<String>();	
 			wordList.add(str);
 			wordsMap.put(prefix,wordList);
 		}

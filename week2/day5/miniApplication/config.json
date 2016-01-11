@@ -1,0 +1,34 @@
+[
+    {
+        "Invoice Date": "MM/DD/YYYY HH:MM:SS",
+        "Start Date": "MM/DD/YYYY HH:MM:SS",
+        "Amount": "%.2f",
+        /*"Status": {
+            "enum": [
+                "Paid",
+                "Not Paid"
+            ]
+        },*/
+        "Paid On": "MM/DD/YYYY HH:MM:SS",
+        "Next Retry": "",
+        "Refunded Amount": "%.2f",
+        /*"Recurring": {
+            "enum": [
+                "TRUE",
+                "FALSE"
+            ]
+        },
+        "First Invoice": {
+            "enum": [
+                "TRUE",
+                "FALSE"
+            ]
+        },*/
+        "Tax Total": "%.2f",
+        "Customer First Name": "Customer Details/First Name",
+        "Customer Last Name": "Customer Details/Last Name",
+        "Customer Email": "Customer Details/Email",
+        "Customer Company": "Customer Details/Company"
+        
+    }
+]
