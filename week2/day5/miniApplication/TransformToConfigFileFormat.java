@@ -8,25 +8,33 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;  
 import org.json.simple.parser.ParseException;  
 
+import java.util.HashMap;
+import java.util.ArrayList;
+
 public class TransformToConfigFileFormat{
 
-	public static String transformValueFormat(CSVRecord record){
+	public static void transformValueFormat(CSVRecord record){
 		JSONParser parser = new JSONParser();
 
 		try{
+			JSONObject obj = (JSONObject)parser.parse(new BufferedReader(new FileReader("miniApplication/config1.json"))); 
+			LinkedMap<String,String> csvRecordMap = (LinkedMap<String,String>)record.toMap();
 
-			JSONObject obj = (JSONObject)parser.parse(new BufferedReader(new FileReader("students-teachers.json")));
-			
-			
+			ArrayList<String> formattedValues = new ArrayList<String>();
 
-			
+			for(String heading : csvRecordMap.keySet()){
+				String jsonValue;
+				jsonValue = (String)obj.get(heading);	
+				System.out.println(heading);
+			}
 
 		}catch (FileNotFoundException e) {  
+			System.out.println("File not found");
    			e.printStackTrace();  
   		}catch (IOException e) {  
    			e.printStackTrace();  
   		}catch (ParseException e) {  
-   			e.printStackTrace();  
+   		//	e.printStackTrace();  
   		}		  
 	}
 	

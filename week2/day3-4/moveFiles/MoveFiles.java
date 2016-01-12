@@ -27,7 +27,7 @@ public class MoveFiles{
 				Files.move(source,destination);
 			}else{
 
-				Integer count = 1;
+				Integer count = 0;
 				String fileName = FilenameUtils.removeExtension(fromDir.getName());
 				String fileExt = FilenameUtils.getExtension(fromDir.getName());
 
@@ -38,8 +38,6 @@ public class MoveFiles{
         			}	
 				}
         		fileName = dir+"/" + fileName + "-" + count + "." + fileExt;
-        		System.out.println(fileName);
-        		//destination = dir.toPath().resolve(fileName);
         		destination = Paths.get(fileName);
         		
         		try{
@@ -55,18 +53,11 @@ public class MoveFiles{
 
 	public static void main(String args[])throws IOException{
 
-		File source = new File("/Users/cb-bhuvana/Documents/CB-Training-JAVA/CB-Training/week1/day2");
-		File destination = new File("/Users/cb-bhuvana/Documents/CB-Training-JAVA/CB-Training/week2/day3-4/moveFiles");
+		File source = new File("/Users/cb-bhuvana/Documents/CB-Training-JAVA/CB-Training/week2/day3-4/moveFiles/toMoveFiles");
+		File destination = new File("/Users/cb-bhuvana/Documents/CB-Training-JAVA/CB-Training/week2/day3-4/moveFiles/movedFiles");
 
-		MoveFiles move = new MoveFiles();
-
-		
+		MoveFiles move = new MoveFiles();		
 		move.moveFilesDirtoDir(source,destination);		
-		
-		
-		
-
-		
 
 	}
 }

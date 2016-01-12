@@ -27,7 +27,7 @@ public class CSVFile{
 		CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader(INPUT_FILE_HEADER_MAPPING);
 
 		try{
-			fileReader = new BufferedReader(new FileReader("sample-input.csv"));
+			fileReader = new BufferedReader(new FileReader("miniApplication/sample-input.csv"));
 			csvFileParser = new CSVParser(fileReader,csvFileFormat);
 			inputRecords = csvFileParser.getRecords();
 		}catch(Exception e){
@@ -52,7 +52,7 @@ public class CSVFile{
 
 			while(records.hasNext()){
 				CSVRecord record = records.next();
-				String = TransformToConfigFileFormat.transformValueFormat(record);
+				TransformToConfigFileFormat.transformValueFormat(record);
 				//csvFilePrinter.printRecord(record);
 			}
 		}
