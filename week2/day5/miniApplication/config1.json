@@ -1,40 +1,37 @@
 {
     "Invoice Date": {
-        "type": "DATETIME"
+        "type": "dateTime"
     },
     "Start Date": {
-        "type": "DATETIME"
+        "type": "dateTime"
     },
     "Amount": {
-        "type": "MONEY"
-    },
-    "Paid On": {
-        "type": "DATETIME"
+        "type": "money"
     },
     "Refunded Amount": {
-        "type": "MONEY"
+        "type": "money"
     },
     "Tax Total": {
-        "type": "MONEY"
+        "type": "money"
     },
     "Customer First Name": {
         "type": "json",
         "Column Name": "Customer Details",
-        "Filed Name": "First Name"
+        "Field Name": "First Name"
     },
     "Customer Last Name": {
         "type": "json",
         "Column Name": "Customer Details",
-        "Filed Name": "Last Name"
+        "Field Name": "Last Name"
     },
     "Customer Email": {
         "type": "json",
         "Column Name": "Customer Details",
-        "Filed Name": "Email"
+        "Field Name": "Email"
     },
     "Customer Company": {
         "type": "json",
         "Column Name": "Customer Details",
-        "Filed Name": "Company"
+        "Field Name": "Company"
     }
 }

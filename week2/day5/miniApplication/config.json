@@ -1,6 +1,6 @@
 
     {
-        "Invoice Date": "MM/DD/YYYY HH:MM:SS",
+        "Invoice Date": "MM/dd/yyyy HH:mm:ss",
         "Start Date": "MM/DD/YYYY HH:MM:SS",
         "Amount": "##.##",
         "Paid On": "MM/DD/YYYY HH:MM:SS",
