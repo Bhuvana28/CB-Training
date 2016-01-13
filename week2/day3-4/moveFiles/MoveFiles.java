@@ -53,7 +53,7 @@ public class MoveFiles{
 
 	public static void main(String args[])throws IOException{
 
-		File source = new File("/Users/cb-bhuvana/Documents/CB-Training-JAVA/CB-Training/week2/day3-4/moveFiles/toMoveFiles");
+		File source = new File("/Users/cb-bhuvana/Documents/CB-Training-JAVA/CB-Training-copy");
 		File destination = new File("/Users/cb-bhuvana/Documents/CB-Training-JAVA/CB-Training/week2/day3-4/moveFiles/movedFiles");
 
 		MoveFiles move = new MoveFiles();		

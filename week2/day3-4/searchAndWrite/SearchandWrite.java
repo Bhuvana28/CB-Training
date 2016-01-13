@@ -3,7 +3,10 @@
  //index-1>,<start-index-2>. The name of the output file should be the <search-word>.locations.
 package searchAndWrite;
 import java.io.*;
-import java.util.*;
+import java.util.Scanner;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SearchandWrite{
 	public static void main(String args[]) throws IOException{
@@ -23,16 +26,15 @@ public class SearchandWrite{
 			String str;
 			Integer line = 0;
 			while(( str = inputStream.readLine()) != null){
+				str = str.toLowerCase();
 				line++;
-				String[] words = str.split(" ");
-				for(String word : words){
-					if(word.toLowerCase().equals(search)){
-						Integer indice = str.indexOf(word);
-						String outStr = String.format( line +  " : " + indice + " , " + (indice + search.length()-1));
-						outputStream.println(outStr);
-					}
-				}
-					
+				String regex = "\\b"+search.toLowerCase()+"\\b";
+        		Pattern pattern = Pattern.compile(regex);
+        		Matcher matcher = pattern.matcher(str);
+        		while(matcher.find() == true){
+    				String outStr = line +  " : " + matcher.start() + " , " + matcher.end();
+					outputStream.println(outStr);
+        		}
 			}	
 		}finally{
 			if(inputStream!=null){

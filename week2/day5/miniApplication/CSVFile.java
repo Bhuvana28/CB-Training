@@ -12,66 +12,57 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.csv.CSVPrinter;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import java.io.*;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Iterator;
-import java.util.HashSet;
+import java.util.*;
 
 public class CSVFile{
 	private List<CSVRecord> inputRecords = new ArrayList<CSVRecord>();
-	private final String[] INPUT_FILE_HEADER; 
-	private final Object[] OUTPUT_FILE_HEADER;
+	private JSONObject jsonObject = new JSONObject();
+	private Set<String> fileHeaders;
 
-	public CSVFile(String[] inputHeaders, String[] outputHeaders){
-		INPUT_FILE_HEADER = inputHeaders;
-		OUTPUT_FILE_HEADER = outputHeaders;
+	public CSVFile(){
+		
 	}
 
-	public void readInputCSV() throws IOException{
+	public void readInputCSV(String filename) throws IOException{
 		BufferedReader fileReader = null;
 		CSVParser csvFileParser = null;
-		CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader(INPUT_FILE_HEADER);
-
 		try{
-			fileReader = new BufferedReader(new FileReader("miniApplication/sample-input.csv"));
+			CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader();
+			fileReader = new BufferedReader(new FileReader(filename));
 			csvFileParser = new CSVParser(fileReader,csvFileFormat);
+
 			inputRecords = csvFileParser.getRecords();
-		}catch(Exception e){
-			System.out.println(e);
+			fileHeaders = csvFileParser.getHeaderMap().keySet();
+			
 		}finally{
 			fileReader.close();
-			csvFileParser.close();
+			csvFileParser.close();	
 		}
+		
 	}
 
-	public void writeOutputCSV() throws IOException{
+	public void parseConfigJson(String filename) throws Exception{
+		JSONParser parser = new JSONParser();
+		jsonObject = (JSONObject)parser.parse(new BufferedReader(new FileReader(filename))); 
+	}
+
+	public void writeOutputCSV(String filename) throws Exception{
 		BufferedWriter fileWriter = null;
 		CSVPrinter csvFilePrinter = null;	
 		CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator("\n");	
 		try{
-			fileWriter = new BufferedWriter(new FileWriter("miniApplication/output1.csv"));			
+			fileWriter = new BufferedWriter(new FileWriter(filename));			
 			csvFilePrinter = new CSVPrinter(fileWriter,csvFileFormat);
 
-			//csvFilePrinter.printRecord(OUTPUT_FILE_HEADER);
-			Iterator<CSVRecord> records = inputRecords.iterator();
-			LinkedList<String> record = transformValueFormat(records.next(),true);
-			csvFilePrinter.printRecord(record);
+			setOutputFileHeader(csvFilePrinter);
 
-			for(int index = 1; index<inputRecords.size();index++){
-				record = transformValueFormat(inputRecords.get(index),false);	
-				csvFilePrinter.printRecord(record);
-				break;
+			Iterator<CSVRecord> records = inputRecords.iterator();
+			while(records.hasNext()){
+				//System.out.println(records.next());
+				transformValueFormat(csvFilePrinter,records.next());	
 			}
-		}
-		catch (Exception e){
-			System.out.println("Error in writeOutputCSV");
-			e.printStackTrace();
 		}finally{
 			fileWriter.flush();
 			fileWriter.close();
@@ -79,85 +70,77 @@ public class CSVFile{
 		}
 	}
 
-	private LinkedList<String> transformValueFormat(CSVRecord record,boolean header){
-		String dateTimePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-		String dateTimeFormat = "M/dd/yyyy HH:mm:ss";
-		Double decimalValue = 0.01;
-		JSONParser parser = new JSONParser();
+	private void setOutputFileHeader(CSVPrinter csvPrinter) throws Exception{
+		LinkedHashSet<String> headersList = new LinkedHashSet<String>();
+		LinkedHashSet<String> jsonColumnHeaders = new LinkedHashSet<String>();
+		
+		for(String header : fileHeaders){
+			JSONObject valueObject = (JSONObject)jsonObject.get(header);
+			if(valueObject != null && ((String)valueObject.get("type")).equals("json")){
+				jsonColumnHeaders.add((String)valueObject.get("Column Name"));
+			}else{
+				headersList.add(header);	
+			}
+		}
+		for(String header : jsonColumnHeaders){
+			headersList.add(header);
+		}
 
-		SimpleDateFormat datePattern = new SimpleDateFormat(dateTimePattern);
-		SimpleDateFormat dateFormat = new SimpleDateFormat(dateTimeFormat);
+		csvPrinter.printRecord(headersList);
+	}
+
+	public String changeDateFormat(String fromPattern, String toPattern,String value) throws Exception{
+		SimpleDateFormat datePattern = new SimpleDateFormat(fromPattern);
+		SimpleDateFormat dateFormat = new SimpleDateFormat(toPattern);
+		
+		Date date = datePattern.parse(value);
+		return dateFormat.format(date);
+	}
+
+	public String changetoDouble(Double decimalValue, Double value){
+		return Double.toString(value*decimalValue);
+	}
+
+	public void changetoJSON(JSONObject columnObject,LinkedHashMap<String,JSONObject> columnMap,String value){
+		String colName = (String)columnObject.get("Column Name");
+		JSONObject column = columnMap.containsKey(colName)? columnMap.get(colName) : new JSONObject();
+		column.put((String)columnObject.get("Field Name"),value);	
+		columnMap.put(colName,column);	
+	}
+
+
+	private void transformValueFormat(CSVPrinter csvPrinter,CSVRecord record) throws Exception{
+		 
 		LinkedList<String> formattedValues = new LinkedList<String>();
-		HashSet<String> headersList = new HashSet<String>();
-
 		LinkedHashMap<String,JSONObject> newColumnMap = new LinkedHashMap<String,JSONObject>();
 
-		try{
-			JSONObject obj = (JSONObject)parser.parse(new BufferedReader(new FileReader("miniApplication/config1.json"))); 
+		//This loop converts all the column values to congig file format.
+		for(String heading : fileHeaders){
+			JSONObject valueObject = (JSONObject)jsonObject.get(heading);	
+			String type = (valueObject != null ) ? (String)valueObject.get("type") : null;
 
-			for(String heading : INPUT_FILE_HEADER){
-				JSONObject columnType = (JSONObject)obj.get(heading);	
-				String type = (columnType != null ) ? (String)columnType.get("type") : null;
-				if(type != null){
-					switch(type){
-						case "dateTime"	:	
-											if(header){
-												formattedValues.add(record.get(heading));
-											}else{
-												try{
-													Date date = datePattern.parse(record.get(heading));
-													formattedValues.add(dateFormat.format(date));
-												}catch(Exception e){
-													System.out.println("date parse error\n");
-													e.printStackTrace();
-												}
-													
-											}
-											break;
-						case "money"	:	
-											if(header){
-												formattedValues.add(record.get(heading));
-											}else{
-												double amount = Double.parseDouble(record.get(heading));
-												amount = amount * decimalValue;
-												formattedValues.add(Double.toString(amount));	
-											}
-											break;
-						case "json"		:
-											if(header){
-												headersList.add((String)columnType.get("Column Name"));
-											}else{
-												String colName = (String)columnType.get("Column Name");
-												JSONObject column = newColumnMap.containsKey(colName)? newColumnMap.get(colName) : new JSONObject();
-												column.put((String)columnType.get("Field Name"),record.get(heading));	
-												newColumnMap.put(colName,column);	
-											}
-											break;
-				
-					}
-				}else{
-					formattedValues.add(record.get(heading));
-				}
-			}
-			if(header){
-				for(String headerName : headersList){
-					formattedValues.add(headerName);
+			if(type != null){
+				switch(type){
+					case "dateTime"	:	
+										formattedValues.add(changeDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'","M/dd/yyyy HH:mm:ss",record.get(heading)));	
+										break;
+					case "money"	:	
+										formattedValues.add(changetoDouble(0.01,Double.parseDouble(record.get(heading))));	
+										break;
+					case "json"		:	
+										changetoJSON(valueObject,newColumnMap,record.get(heading));
+										break;
 				}
 			}else{
-				for(JSONObject jsonObj : newColumnMap.values()){
-					formattedValues.add(jsonObj.toJSONString());		
-				}
+				formattedValues.add(record.get(heading));
 			}
-			
-		}catch (FileNotFoundException e) {  
-			System.out.println("File not found");
-   			e.printStackTrace();  
-  		}catch (IOException e) {  
-   			e.printStackTrace();  
-  		}catch (ParseException e) {  
-   			e.printStackTrace();  
-  		}
+		}
 
-  		return formattedValues;		  
+		for(JSONObject jsonObj : newColumnMap.values()){
+			formattedValues.add(jsonObj.toJSONString());		
+		}
+
+  		csvPrinter.printRecord(formattedValues);
 	}
+	
 }

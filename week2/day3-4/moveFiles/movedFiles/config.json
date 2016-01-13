@@ -1,0 +1,13 @@
+
+    {
+        "Invoice Date": "MM/dd/yyyy HH:mm:ss",
+        "Start Date": "MM/DD/YYYY HH:MM:SS",
+        "Amount": "##.##",
+        "Paid On": "MM/DD/YYYY HH:MM:SS",
+        "Refunded Amount": "#.##",
+        "Tax Total": "##.##",
+        "Customer First Name": "Customer Details/First Name",
+        "Customer Last Name": "Customer Details/Last Name",
+        "Customer Email": "Customer Details/Email",
+        "Customer Company": "Customer Details/Company"        
+    }

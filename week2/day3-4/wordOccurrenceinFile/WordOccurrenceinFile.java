@@ -22,7 +22,7 @@ public class WordOccurrenceinFile{
 
 			for(String word : wordOccurrences.keySet()){
 				Integer count = wordOccurrences.get(word);
-				String str = String.format("[" + word + "] : [" + count + "].");
+				String str = "[" + word + "] : [" + count + "].";
 				outputStream.println(str);
 			}
 

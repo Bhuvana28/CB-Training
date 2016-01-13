@@ -1,12 +1,14 @@
 [a] : [1].
 [calculated] : [1].
-[file.] : [1].
 [in] : [1].
 [input] : [1].
-[is] : [1].
+[is] : [2].
+[line.] : [1].
 [occurrences] : [1].
 [sample] : [1].
+[second] : [1].
 [the] : [1].
 [this] : [2].
+[this.] : [1].
 [to] : [1].
 [word] : [1].

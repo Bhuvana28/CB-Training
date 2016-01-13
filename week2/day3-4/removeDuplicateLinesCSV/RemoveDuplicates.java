@@ -13,15 +13,15 @@ import java.io.*;
 public class RemoveDuplicates{
 	public static void main(String args[]) throws IOException{
 
-		final String [] FILE_HEADER_MAPPING = {"id","firstname","lastname","gender","age"};
-
 		BufferedReader fileReader = null;
 		CSVParser csvFileParser = null;
 
 		BufferedWriter fileWriter = null;
 		CSVPrinter csvFilePrinter = null;
 
-		CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader(FILE_HEADER_MAPPING);
+		Set<String> fileHeaders;
+
+		CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader();
 		CSVFormat csvFileWriteFormat = CSVFormat.DEFAULT.withRecordSeparator("\n");
 
 		try{
@@ -31,31 +31,30 @@ public class RemoveDuplicates{
 			csvFileParser = new CSVParser(fileReader,csvFileFormat);
 			csvFilePrinter = new CSVPrinter(fileWriter,csvFileWriteFormat);
 
+			//Getting file headers;
+			fileHeaders = csvFileParser.getHeaderMap().keySet();
+
 			List<CSVRecord> csvRecords = csvFileParser.getRecords();
-			Set<String> csvRecordsSet = new LinkedHashSet<String>();
+			List<String> csvRecordsSet = new LinkedList<String>();
 
-			for(int i = 0; i < csvRecords.size(); i++){
-				CSVRecord record = csvRecords.get(i);
-				String student = record.get("id") + record.get("firstname") + record.get("lastname") + record.get("gender") + record.get("age");
-				if(!csvRecordsSet.add(student)){
-					csvRecords.remove(i);
-				}
-			}
-			
+			csvFilePrinter.printRecord(fileHeaders);
+
 			Iterator<CSVRecord> records = csvRecords.iterator();
-
 			while(records.hasNext()){
 				CSVRecord record = records.next();
-				csvFilePrinter.printRecord(record);
+				String student = "";
+				for(String header : fileHeaders){
+					student += record.get(header);
+				}
+				//Checking if the record already exits in the list.
+				if(!csvRecordsSet.contains(student)){
+					csvRecordsSet.add(student);
+					csvFilePrinter.printRecord(record);	//writing a record to the output students file.
+				}
 			}
 
-		}
-		catch (Exception e){
-			System.out.println("Error");
-			e.printStackTrace();
 		}finally{
 			fileReader.close();
-			fileWriter.flush();
 			fileWriter.close();
 			csvFileParser.close();
 			csvFilePrinter.close();

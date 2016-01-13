@@ -1,0 +1,37 @@
+{
+    "Invoice Date": {
+        "type": "dateTime"
+    },
+    "Start Date": {
+        "type": "dateTime"
+    },
+    "Amount": {
+        "type": "money"
+    },
+    "Refunded Amount": {
+        "type": "money"
+    },
+    "Tax Total": {
+        "type": "money"
+    },
+    "Customer First Name": {
+        "type": "json",
+        "Column Name": "Customer Details",
+        "Field Name": "First Name"
+    },
+    "Customer Last Name": {
+        "type": "json",
+        "Column Name": "Customer Details",
+        "Field Name": "Last Name"
+    },
+    "Customer Email": {
+        "type": "json",
+        "Column Name": "Customer Details",
+        "Field Name": "Email"
+    },
+    "Customer Company": {
+        "type": "json",
+        "Column Name": "Customer Details",
+        "Field Name": "Company"
+    }
+}
