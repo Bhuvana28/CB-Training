@@ -3,8 +3,8 @@ package phoneDirectory;
 import java.util.*;
 import java.io.*;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONArray;
 import org.json.simple.parser.JSONParser;  
 import org.json.simple.parser.ParseException;  
 
@@ -14,28 +14,30 @@ public class InputJSONFile{
 	
 	public void storeInputJSON(String filename,HashMap<String,ArrayList<Person>> pplList) throws Exception{
 		JSONParser parser = new JSONParser();
-		
-		JSONObject jsonObject = (JSONObject)parser.parse(new BufferedReader(new FileReader(filename)));
-		JSONArray ppl = (JSONArray)jsonObject.get("persons");
+		JSONObject jsonObject = new JSONObject();
+		Object obj= parser.parse(new BufferedReader(new FileReader(filename)));
+		jsonObject = new JSONObject(obj.toString());
+		JSONArray ppl = jsonObject.getJSONArray("persons");
 
-		for(int index=0; index < ppl.size();index++){
-			JSONObject person = (JSONObject)ppl.get(index);
-			String name = (String)person.get("name");
-			String address = (String)person.get("address");
+		for(int index=0; index < ppl.length();index++){
+			JSONObject person = ppl.getJSONObject(index);
+			String name = person.getString("name");
+			String address = person.getString("address");
 
 			ArrayList<Phone> phones = new ArrayList<Phone>();
-			String mobile = (String)person.get("mobile");
-			if(mobile != null){
-				phones.add(new Phone(PhoneType.MOBILE,mobile));
+			
+			if(person.has("mobile")){
+				phones.add(new Phone(PhoneType.MOBILE,person.getString("mobile")));
 			}
-			String home = (String)person.get("home");
-			if(home != null){
-				phones.add(new Phone(PhoneType.HOME,home));
+			
+			if(person.has("home")){
+				phones.add(new Phone(PhoneType.HOME,person.getString("home")));
 			}
-			String work = (String)person.get("work");
-			if(work != null){
-				phones.add(new Phone(PhoneType.WORK,work));
+			
+			if(person.has("work")){
+				phones.add(new Phone(PhoneType.WORK,person.getString("work")));
 			}
+
 			ArrayList<Person> persons = new ArrayList<Person>();
 			if(pplList.containsKey(name)){
 				persons = pplList.get(name);

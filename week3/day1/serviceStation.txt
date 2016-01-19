@@ -1,0 +1,57 @@
+create database service_station;
+use service_station;
+
+create table service_station(
+	id int(2),
+	name varchar(20),
+	address varchar(100),
+	contact int(10),
+	constraint service_station_id_pk primary key(id)
+);
+
+create table employees(
+	id int(2),
+	name varchar(20),
+	age int(2),
+	contact varchar(10),
+	constraint employees_id_pk primary key(id)
+);
+
+create table customers(
+	id int(2),
+	name varchar(20),
+	age int(2),
+	contact varchar(10),
+	emp_id int(2),
+	constraint customers_id_pk primary key(id),
+	constraint customer_emp_id_fk foreign key(emp_id) references employees(id)
+);
+
+create table vehicles(
+	id int(2),
+	type varchar(4),
+	brand varchar(20),
+	color varchar(10),
+	service_charge float(3,2),
+	constraint vehicles_id_pk primary key(id),
+	constraint vehicles_type_values check(type in ('bus','car','bike')) 
+);	
+
+create table invoices(
+	id int(2),
+	nameOfOwner varchar(20),
+	vehicle int(2),
+	contact varchar(10),
+	amountTotal float(4,2),
+	employee_assigned int(2),
+	constraint invoices_id_pk primary key(id),
+	constraint invoices_vehicle_id_fk foreign key(vehicle) references vehicles(id),
+	constraint invoices_emp_assigned_fk foreign key(employee_assigned) references employees(id)
+);
+
+ALTER TABLE service_station MODIFY contact varchar(10);
+
+insert into employees values (1,'emp1',25,'8584683872') , (2,'emp2',28,'9373466666');
+
+
+

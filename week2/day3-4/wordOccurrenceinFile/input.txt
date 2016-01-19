@@ -1,4 +1,4 @@
 This is a sample input to calculated the word occurrences in this.
-This is second line.
+This is second  second line.
 This is second line.
 This is second line.

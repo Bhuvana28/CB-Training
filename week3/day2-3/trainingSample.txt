@@ -1,0 +1,9 @@
+create database training_sample;
+
+use training_sample;
+
+source '/Users/cb-bhuvana/Documents/CB-Training-JAVA/CB-Training/week3/day2-3/sample-sql-data.sql;
+
+
+
+

@@ -20,15 +20,13 @@
             "name" : " siva",
             "address": "CBI Road",
             "mobile": "983748675",
-            "home": "3654554",
-            "work": null
+            "home": "3654554"
             
         },
         {
            "name" : "satya",
             "address": "OMR",
             "mobile": "8653347575",
-            "home": null,
             "work": "45678345"
             
         },
@@ -36,7 +34,6 @@
             "name" : "satya",
             "address": "OMR",
             "mobile": "8653347575",
-            "home": null,
             "work": "45678345"
         
         }

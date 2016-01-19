@@ -1,7 +1,7 @@
 package jsonFileReader;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONArray;
 import org.json.simple.parser.JSONParser;  
 import org.json.simple.parser.ParseException;  
 
@@ -22,42 +22,40 @@ public class JsonFileReader{
 
 		Object obj = parser.parse(new BufferedReader(new FileReader("students-teachers.json")));
 
-		JSONObject jsonObject = (JSONObject)obj;
-		JSONObject studentObject = (JSONObject)jsonObject.get("Student");
-		JSONObject teacherObject = (JSONObject)jsonObject.get("Teacher");
+		JSONObject jsonObject = new JSONObject(obj.toString());
 
-		JSONArray studentMarks = (JSONArray)studentObject.get("Marks");
-		Iterator<JSONObject> marksIterator = (Iterator<JSONObject>) studentMarks.iterator();
+		JSONObject studentObject = jsonObject.getJSONObject("Student");
+		JSONObject teacherObject = jsonObject.getJSONObject("Teacher");
+
+		JSONArray studentMarks = studentObject.getJSONArray("Marks");
 		ArrayList<Mark> marks = new ArrayList<Mark>();
 
-		while(marksIterator.hasNext()){
-			JSONObject markObject = (JSONObject)marksIterator.next();
-			marks.add(new Mark((Long)markObject.get("Mark"),(String)markObject.get("Subject")));
+		for(int index=0;index<studentMarks.length();index++){
+			JSONObject markObject = studentMarks.getJSONObject(index);
+			marks.add(new Mark(markObject.getLong("Mark"),markObject.getString("Subject")));
 		}
-
-
-		Student student = new Student(	(String)studentObject.get("Date Of Joining"),
-										(String)studentObject.get("ID"),
-										(String)studentObject.get("Name"),
-										(String)studentObject.get("Std"),
+			
+		Student student = new Student(	studentObject.getString("Date Of Joining"),
+										studentObject.getString("ID"),
+										studentObject.getString("Name"),
+										studentObject.getString("Std"),
 										marks
 									);
 
 
-		JSONArray teacherClasses = (JSONArray)teacherObject.get("Classes Taking Care Of");
-		Iterator<String> classIterator = (Iterator<String>)teacherClasses.iterator();
+		JSONArray teacherClasses = teacherObject.getJSONArray("Classes Taking Care Of");
 		HashSet<String> classes = new HashSet<String>();
 
-		while(classIterator.hasNext()){
-			classes.add((String)classIterator.next());
+		for(int index=0;index<teacherClasses.length();index++){
+			classes.add(teacherClasses.getString(index));
 		}
 	
 		Teacher teacher = new Teacher(
-										(String)teacherObject.get("Name"),
-										(String)teacherObject.get("ID"),
-										(String)teacherObject.get("Date Of Joining"),
+										teacherObject.getString("Name"),
+										teacherObject.getString("ID"),
+										teacherObject.getString("Date Of Joining"),
 										classes,
-										(Long)teacherObject.get("Salary")
+										teacherObject.getLong("Salary")
 									);	
 		
 		System.out.println(student);

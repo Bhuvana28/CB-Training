@@ -1,8 +1,9 @@
 
 package miniApplication;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.simple.parser.JSONParser;  
 import org.json.simple.parser.ParseException;  
 
@@ -18,7 +19,7 @@ import java.util.*;
 
 public class CSVFile{
 	private List<CSVRecord> inputRecords = new ArrayList<CSVRecord>();
-	private JSONObject jsonObject = new JSONObject();
+	private JSONObject jsonObject;
 	private Set<String> fileHeaders;
 
 	public CSVFile(){
@@ -45,7 +46,8 @@ public class CSVFile{
 
 	public void parseConfigJson(String filename) throws Exception{
 		JSONParser parser = new JSONParser();
-		jsonObject = (JSONObject)parser.parse(new BufferedReader(new FileReader(filename))); 
+		Object obj =parser.parse(new BufferedReader(new FileReader(filename))); 
+		jsonObject = new JSONObject(obj.toString());
 	}
 
 	public void writeOutputCSV(String filename) throws Exception{
@@ -75,9 +77,9 @@ public class CSVFile{
 		LinkedHashSet<String> jsonColumnHeaders = new LinkedHashSet<String>();
 		
 		for(String header : fileHeaders){
-			JSONObject valueObject = (JSONObject)jsonObject.get(header);
-			if(valueObject != null && ((String)valueObject.get("type")).equals("json")){
-				jsonColumnHeaders.add((String)valueObject.get("Column Name"));
+			JSONObject valueObject = jsonObject.optJSONObject(header);
+			if(valueObject != null && (valueObject.getString("type")).equals("json")){
+				jsonColumnHeaders.add(valueObject.getString("Column Name"));
 			}else{
 				headersList.add(header);	
 			}
@@ -101,46 +103,48 @@ public class CSVFile{
 		return Double.toString(value*decimalValue);
 	}
 
-	public void changetoJSON(JSONObject columnObject,LinkedHashMap<String,JSONObject> columnMap,String value){
-		String colName = (String)columnObject.get("Column Name");
-		JSONObject column = columnMap.containsKey(colName)? columnMap.get(colName) : new JSONObject();
-		column.put((String)columnObject.get("Field Name"),value);	
-		columnMap.put(colName,column);	
+	public void changetoJSON(JSONObject columnObject,LinkedHashMap<String,JSONObject> columnMap,String value) throws JSONException{
+		if(value != null && !value.isEmpty()){
+			String colName = columnObject.getString("Column Name");
+			JSONObject column = columnMap.containsKey(colName)? columnMap.get(colName) : new JSONObject();
+			column.put(columnObject.getString("Field Name"),value);	
+			columnMap.put(colName,column);		
+		}
 	}
 
 
 	private void transformValueFormat(CSVPrinter csvPrinter,CSVRecord record) throws Exception{
 		 
-		LinkedList<String> formattedValues = new LinkedList<String>();
+		//LinkedList<String> formattedValues = new LinkedList<String>();
 		LinkedHashMap<String,JSONObject> newColumnMap = new LinkedHashMap<String,JSONObject>();
 
 		//This loop converts all the column values to congig file format.
 		for(String heading : fileHeaders){
-			JSONObject valueObject = (JSONObject)jsonObject.get(heading);	
-			String type = (valueObject != null ) ? (String)valueObject.get("type") : null;
-
+			
+			JSONObject valueObject = jsonObject.optJSONObject(heading);	
+			String type = (valueObject != null) ? valueObject.getString("type") : null;
 			if(type != null){
 				switch(type){
 					case "dateTime"	:	
-										formattedValues.add(changeDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'","M/dd/yyyy HH:mm:ss",record.get(heading)));	
+										csvPrinter.print(changeDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'","M/dd/yyyy HH:mm:ss",record.get(heading)));	
 										break;
 					case "money"	:	
-										formattedValues.add(changetoDouble(0.01,Double.parseDouble(record.get(heading))));	
+										csvPrinter.print(changetoDouble(0.01,Double.parseDouble(record.get(heading))));	
 										break;
 					case "json"		:	
 										changetoJSON(valueObject,newColumnMap,record.get(heading));
 										break;
 				}
 			}else{
-				formattedValues.add(record.get(heading));
+				csvPrinter.print(record.get(heading));
 			}
 		}
 
 		for(JSONObject jsonObj : newColumnMap.values()){
-			formattedValues.add(jsonObj.toJSONString());		
+			csvPrinter.print(jsonObj.toString());		
 		}
 
-  		csvPrinter.printRecord(formattedValues);
+  		csvPrinter.println();
 	}
 	
 }
