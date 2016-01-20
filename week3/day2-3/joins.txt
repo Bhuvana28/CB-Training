@@ -1,0 +1,6 @@
+select marks.id,name,subject_id,quarterly,half_yearly,annual,year,grade from marks INNER JOIN students on marks.student_id = students.id;
+
+select name from marks inner join students on marks.student_id = students.id where quarterly is null and half_yearly is null and annual is null;
+
+select s.name,sum(COALESCE(m.annual,0)) marks,m.year from marks m inner join students s on s.id = m.student_id group by m.student_id,m.year;
+
