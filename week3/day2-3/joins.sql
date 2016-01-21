@@ -33,31 +33,38 @@ select distinct s.name,count(me.medal_won) medals,round((sum(COALESCE(ma.quarter
 
 #9)
 DELIMITER $$
-CREATE FUNCTION AssignRating(total INT) RETURNS CHAR
-	BEGIN 
-		DECLARE range CHAR;
-		SET range = 'H';
-		RETURN (range);
-	END;
-	$$
-	DELIMITER;
+CREATE FUNCTION Hello() RETURNS TEXT
+BEGIN
+RETURN 'Hello';
+END;
+$$
+DELIMITER;
 
-	IF (total >= 450 AND total <= 500) THEN
-			SET range = 'S';
-		ELSEIF(total >= 400 AND total <= 449) THEN
-			SET range = 'A';
-		ELSEIF(total >= 350 AND total <= 399) THEN
-			SET range = 'B';
-		ELSEIF(total >= 300 AND total <= 349) THEN
-			SET range = 'C';
-		ELSEIF(total >= 250 AND total <= 299) THEN
-			SET range = 'D';
-		ELSEIF(total >= 200 AND total <= 249) THEN
-			SET range = 'E';
-		ELSEIF(total < 200) THEN
-			SET range = 'F';
-		END IF;
+DROP FUNCTION IF EXISTS getRating;
+DELIMITER $$
+CREATE FUNCTION getRating(total INT) RETURNS CHAR
+BEGIN
+DECLARE grade CHAR;
+IF(total>=450 AND total<=500) THEN
+SET grade = 'S';
+ELSEIF(total>=400 AND total<=449) THEN
+SET grade = 'A';
+ELSEIF(total>=350 AND total<=399) THEN
+SET grade = 'B';
+ELSEIF(total>=300 AND total<=349) THEN
+SET grade = 'C';
+ELSEIF(total>=250 AND total<=299) THEN
+SET grade = 'D';
+ELSEIF(total>=200 AND total<=249) THEN
+SET grade = 'E';
+ELSEIF(total<200) THEN
+SET grade = 'F';
+END IF;
+RETURN (grade);
+END;
+$$
+DELIMITER;
+
+select name, getRating(SUM(COALESCE(quarterly,0))) quarterly_rating,getRating(SUM(COALESCE(half_yearly,0))) half_yearly_rating,getRating(SUM(COALESCE(annual,0))) annual_rating, year, grade from marks inner join students on students.id = marks.student_id group by student_id,year,grade;
 
 
-
-select name, quarterly_rating, half_yearly_rating, annual_rating, year, grade
