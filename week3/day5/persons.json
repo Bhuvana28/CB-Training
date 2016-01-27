@@ -1,0 +1,41 @@
+{
+    "persons": [
+        {
+            "name" : "bhuvana",
+            "address": "OMR",
+            "mobile": "7418742142",
+            "home": "40173355",
+            "work": "43827466"
+            
+        },
+        {
+            "name" : "vinothini",
+            "address": "OMR",
+            "mobile": "823675636",
+            "home": "23482644",
+            "work": "43827466"
+
+        },
+        {
+            "name" : " siva",
+            "address": "CBI Road",
+            "mobile": "983748675",
+            "home": "3654554"
+            
+        },
+        {
+           "name" : "satya",
+            "address": "OMR",
+            "mobile": "8653347575",
+            "work": "45678345"
+            
+        },
+        {
+            "name" : "satya",
+            "address": "OMR",
+            "mobile": "8653347575",
+            "work": "45678345"
+        
+        }
+    ]
+}

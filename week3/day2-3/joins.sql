@@ -25,11 +25,14 @@
 # - to check students who won medals >= 3  select student_id from medals group by student_id having count(medal_won) >=3;
 
 #8)
-select distinct s.name,(count(me.medal_won)/5) medals,round((sum(COALESCE(ma.quarterly,0))/500)*100,2) quarterly_per, round((sum(COALESCE(ma.half_yearly,0))/500)*100,2) half_yearly_per, round((sum(COALESCE(ma.annual,0))/500)*100,2) annual_per, ma.year, ma.grade from marks ma inner join students s on s.id=ma.student_id left join medals me on me.student_id=ma.student_id and me.year = ma.year group by ma.student_id,ma.year,ma.grade,me.medal_won; 
 
-select * from marks ma inner join students s on s.id=ma.student_id left join medals me on me.student_id=ma.student_id and me.year = ma.year;
+#select s.name,ma.quarterly,ma.half_yearly,ma.annual,me.medal_won,ma.year from marks ma right join students s on s.id=ma.student_id left join (select student_id,count(medal_won) medal_won,year from medals group by student_id,year) me on me.student_id=ma.student_id and me.year = ma.year;
 
-select distinct s.name,count(me.medal_won) medals,round((sum(COALESCE(ma.quarterly,0))/500)*100,2) quarterly_per, round((sum(COALESCE(ma.half_yearly,0))/500)*100,2) half_yearly_per, round((sum(COALESCE(ma.annual,0))/500)*100,2) annual_per, ma.year, ma.grade from marks ma inner join students s on s.id=ma.student_id left join medals me on me.student_id=ma.student_id and me.year = ma.year group by ma.student_id,ma.year,ma.grade; 
+select s.name, round(sum(COALESCE(ma.quarterly,0))/5,2) quarterly_per, round((sum(COALESCE(ma.half_yearly,0))/5),2) half_yearly_per,
+round((sum(COALESCE(ma.annual,0))/5),2) annual_per,COALESCE(me.medal_won,0) 'Medals won',ma.year 
+from marks ma right join students s on s.id=ma.student_id left join 
+(select student_id,count(medal_won) 'medal_won',year from medals group by student_id,year) me 
+on me.student_id=ma.student_id and me.year = ma.year group by s.id,s.name,ma.year,me.medal_won order by s.id;
 
 #9)
 DELIMITER $$
@@ -66,5 +69,3 @@ $$
 DELIMITER;
 
 select name, getRating(SUM(COALESCE(quarterly,0))) quarterly_rating,getRating(SUM(COALESCE(half_yearly,0))) half_yearly_rating,getRating(SUM(COALESCE(annual,0))) annual_rating, year, grade from marks inner join students on students.id = marks.student_id group by student_id,year,grade;
-
-
