@@ -16,7 +16,7 @@ select `trainname` from `trains`;
 select s1.stationcode 'Origin', s2.stationcode 'Destination' from routes r inner join stations s1 on s1.stationid = r.originstationid inner join stations s2 on s2.stationid = r.destinationstationid;
 
 #3) Total number of seats in the each train.
-select trainname 'Train',sum(noofseats) 'No of Seats' from traincoaches inner join trains on trains.trainno = traincoaches.trainno group by trainname;
+select trainname 'Train',IFNULL(sum(noofseats),0) 'No of Seats' from trains left join traincoachs on trains.trainno = traincoachs.trainno group by trainname;
 
 #4) List of all routes goes to Bangalore
 select s1.stationcode 'Origin', s2.stationcode 'Destination' from routes r inner join stations s1 on s1.stationid = r.originstationid inner join stations s2 on s2.stationid = r.destinationstationid where s2.stationcode = 'SBE';
@@ -39,31 +39,31 @@ select bookingrefno,trainname,s1.stationcode 'Origin', s2.stationcode 'Destinati
 select bookingrefno,trainname,s1.stationcode 'Origin', s2.stationcode 'Destination',dateofjourney,dateofbooking,nooftickets from bookings inner join trains on trains.trainno = bookings.trainno inner join routes on routes.routeid = bookings.routeid inner join stations s1 on routes.originstationid = s1.stationid  inner join stations s2 on s2.stationid = routes.destinationstationid where year(dateofbooking) = '2006' and year(dateofjourney) = '2007';
 
 #10) Total number of coaches in the all the trains
-select trainname 'Train' ,count(coachcode) 'No of coaches' from traincoaches inner join trains on trains.trainno = traincoaches.trainno group by trainname;
+select trainname 'Train' ,count(coachcode) 'No of coaches' from trains left join traincoachs on trains.trainno = traincoachs.trainno group by trainname;
 
 #11) Total number of bookings in the database for the train no 16198
-select trainname 'Train' ,count(bookingrefno) 'No of bookings' from bookings inner join trains on trains.trainno = bookings.trainno where bookings.trainno = 1 group by bookings.trainno;
+select trainname 'Train' ,count(bookingrefno) 'No of bookings' from trains left join bookings on trains.trainno = bookings.trainno where bookings.trainno = 1 group by bookings.trainno;
 
 #12) Total no of tickets column 'total' , booked for train no. 14198
-select trainname 'Train' ,sum(nooftickets) 'No of tickets booked' from bookings inner join trains on trains.trainno = bookings.trainno where bookings.trainno = 1 group by bookings.trainno;
+select trainname 'Train' ,sum(nooftickets) 'No of tickets booked' from trains inner join bookings on trains.trainno = bookings.trainno where bookings.trainno = 1 group by bookings.trainno;
 
 #13) Minimum distance route
-select  s1.stationcode 'Origin', s2.stationcode 'Destination',distanceinkms 'Distance' from routes inner join stations s1 on routes.originstationid = s1.stationid  inner join stations s2 on s2.stationid = routes.destinationstationid where distanceinkms = (select min(distanceinkms) from routes);
+select  s1.stationcode 'Origin', s2.stationcode 'Destination',min(distanceinkms) 'Distance' from routes r1 inner join stations s1 on r1.originstationid = s1.stationid  inner join stations s2 on s2.stationid = r1.destinationstationid group by r1.originstationid,r1.destinationstationid;
 
 #14) Total number of tickets booked for each train in the database
-select trainname 'Train' ,sum(coalesce(nooftickets,0)) 'No of tickets booked' from bookings right join trains on trains.trainno = bookings.trainno group by trains.trainname;
+select trainname 'Train' ,sum(coalesce(nooftickets,0)) 'No of tickets booked' from trains left join bookings on trains.trainno = bookings.trainno group by trains.trainname;
 
 #15) cost for 50 kms for each coach.
 select coachcode 'Coach', costperkm*50 'Cost for 50km' from coachs;
 
 #16) List the train name and departure time for the trains starting from Bangalore.
-select trainname,departuretime from trainroutemaps inner join trains on trains.trainno = trainroutemaps.trainno inner join routes on routes.routeid = trainroutemaps.routeid inner join stations s1 on routes.originstationid = s1.stationid  inner join stations s2 on s2.stationid = routes.destinationstationid where s1.stationcode = 'SBE';
+select trainname,departuretime from trains inner join trainroutemaps on trains.trainno = trainroutemaps.trainno inner join routes on routes.routeid = trainroutemaps.routeid inner join stations s1 on routes.originstationid = s1.stationid  inner join stations s2 on s2.stationid = routes.destinationstationid where s1.stationcode = 'SBE';
 
 #17) List the trains for which the total no of tickets booked is greater than 500
-select trainname 'Train' ,sum(nooftickets) 'No of tickets booked' from bookings inner join trains on trains.trainno = bookings.trainno group by bookings.trainno having sum(nooftickets) > 500;
+select trainname 'Train' ,sum(nooftickets) 'No of tickets booked' from trains inner join bookings on trains.trainno = bookings.trainno group by bookings.trainno having sum(nooftickets) > 500;
 
 #18) List the trains for which the total no of tickets booked is lesser than 50
-select trainname 'Train' ,sum(coalesce(nooftickets,0)) 'No of tickets booked' from bookings right join trains on trains.trainno = bookings.trainno group by trains.trainname having sum(coalesce(nooftickets,0)) < 50;
+select trainname 'Train' ,sum(IFNULL(nooftickets,0)) 'No of tickets booked' from trains left join bookings on trains.trainno = bookings.trainno group by trains.trainname having sum(coalesce(nooftickets,0)) < 50;
 
 #19) List the bookings along with train name, origin station, destination station and coach code after the date of journey ’25th Feb 2015’
 select bookingrefno,trainname,s1.stationcode 'Origin', s2.stationcode 'Destination',coachcode,dateofjourney,nooftickets from bookings inner join trains on trains.trainno = bookings.trainno inner join routes on routes.routeid = bookings.routeid inner join stations s1 on routes.originstationid = s1.stationid  inner join stations s2 on s2.stationid = routes.destinationstationid where dateofjourney >= str_to_date('25th Feb 2015','%dth %b %Y');

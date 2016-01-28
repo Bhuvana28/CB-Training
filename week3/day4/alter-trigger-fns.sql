@@ -26,7 +26,12 @@ create table if not exists students_summary(
 	constraint students_summary_id_fk foreign key(student_id) references students(id)
 );
 
-insert into students_summary(student_id,student_name,year,percentage,no_of_medals_received) select s.id,s.name,ma.year,round((sum(IFNULL(ma.annual,0))/5),2),COALESCE(me.medal_won,0) from marks ma right join students s on s.id=ma.student_id left join (select student_id,count(medal_won) 'medal_won',year from medals group by student_id,year) me on me.student_id=ma.student_id and me.year = ma.year group by s.id,s.name,ma.year,me.medal_won;
+insert into students_summary(student_id,student_name,year,percentage,no_of_medals_received) 
+
+	select s.id,s.name,ma.year,round((sum(IFNULL(ma.annual,0))/5),2),IFNULL(me.medal_won,0) 
+		from marks ma right join students s on s.id=ma.student_id 
+		left join (select student_id,count(medal_won) 'medal_won',year from medals group by student_id,year) me on me.student_id=ma.student_id and me.year = ma.year 
+		group by s.id,s.name,ma.year,me.medal_won;
 	
 ----
 alter table marks add column average float(6,2) not null default 0;

@@ -16,9 +16,12 @@ select name,grade,count(medal_won) no_of_medals from students inner join medals 
 select name,grade,count(medal_won) no_of_medals from students left join medals on students.id = medals.student_id group by name,grade having no_of_medals < 2;
 
 #6)
-select m.student_id,s.name,m.year from students s left join marks m on m.student_id = s.id  left join (select student_id,year,count(medal_won) 'medal_won' from medals group by student_id,year) me on me.student_id = s.id and me.year = m.year where m.annual >= 40 and IFNULL(me.medal_won,0) = 0 group by m.student_id,m.year having count(m.student_id) = 5;
-select m.student_id,s.name,m.year from students s left join (select student_id,sum(if(annual>=40,0,1)) 'annual',year from marks group by student_id,year) m on m.student_id = s.id  left join (select student_id,year,count(medal_won) 'medal_won' from medals group by student_id,year) me on me.student_id = s.id and me.year = m.year where m.annual = 0 and IFNULL(me.medal_won,0) = 0;
-#select m.student_id,s.name,m.year from students s inner join marks m on m.student_id = s.id where m.annual >= 40 group by m.student_id,m.year having count(m.student_id) = 5 and 0 = (select count(medal_won) from medals where student_id = m.student_id and year = m.year) ;
+select s.name,m.year from students s left join medals me on s.id = me.student_id left join marks m on m.student_id = s.id group by s.id,me.id,m.year having sum(if(annual>40,0,1)) = 0 and count(me.id) = 0;
+
+select m.student_id,s.name,m.year from students s 
+left join (select student_id,sum(if(annual>=40,0,1)) 'annual',year from marks group by student_id,year) m 
+on m.student_id = s.id  
+left join (select student_id,year,count(medal_won) 'medal_won' from medals group by student_id,year) me on me.student_id = s.id and me.year = m.year where m.annual = 0 and IFNULL(me.medal_won,0) = 0;
 # - To check student annual marks in a year - select student_id,annual from marks where student_id=100001 and year = 2006;
 
 #7)
