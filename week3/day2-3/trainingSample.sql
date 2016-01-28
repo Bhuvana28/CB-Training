@@ -2,10 +2,9 @@ create database training_sample;
 
 use training_sample;
 
-source '/Users/cb-bhuvana/Documents/CB-Training-JAVA/CB-Training/week3/day2-3/sample-sql-data.sql;
+source /Users/cb-bhuvana/Documents/CB-Training-JAVA/CB-Training/week3/day2-3/sample-sql-data.sql;
 
-Queries
-
+--Queries
 select * from students;
 
 select * from students where name like 'H%';
@@ -18,13 +17,12 @@ select * from students order by name limit 2;
 
 select * from students order by name limit 2,2;
 
-Queries with marks table
-
+--Queries with marks table
 select * from marks where annual is NULL;
 
 select student_id,subject_id,year from marks where year = 2005 and annual is NULL;
 
-select student_id,subject_id,year from marks where quarterly or  half_yearly  or  annual is NOT NULL;
+select student_id,subject_id,year from marks where quarterly is NOT NULL or  half_yearly is NOT NULL or  annual is NOT NULL;
 
 select student_id, subject_id, year, quarterly, half_yearly, annual from marks where quarterly > 90 and half_yearly > 90 and annual > 90;
 

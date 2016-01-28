@@ -16,5 +16,17 @@
 
 -- insert into bookings(routeid,trainno,coachcode,dateofjourney,dateofbooking,nooftickets) values (6,1,'S5',str_to_date('22-12-2015','%d-%m-%Y'),str_to_date('17-01-2016','%d-%m-%Y'),1);
 
+-- insert into trainroutemaps(routeid,trainno,arrivaltime,departuretime) values (9,4,"21:00:00","14:00:00");
 
+delimiter ;;
+create trigger calcDurationTimeinMins before insert on trainRouteMaps for each row
+	set new.durationinmins = TIME_TO_SEC(TIMEDIFF(new.arrivaltime,new.departuretime))/60;
+	;;
+delimiter ;
+
+delimiter ;;
+create trigger updateDurationTimeinMins before update on trainRouteMaps for each row
+	set new.durationinmins = TIME_TO_SEC(TIMEDIFF(new.arrivaltime,new.departuretime))/60;
+	;;
+delimiter ;
 
