@@ -167,7 +167,7 @@ class PhoneDirectory{
          
          try{
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
+            conn.setAutoCommit(false);
             personStmt = conn.prepareStatement(personSql,Statement.RETURN_GENERATED_KEYS);
             contactStmt = conn.prepareStatement(contactSql);
             
@@ -181,21 +181,21 @@ class PhoneDirectory{
 
             if(idResult.next()){
                id = idResult.getInt(1);
-               if(mobile!="-"){
+               if(!mobile.equals("-")){
                   contactStmt.setInt(1,id);
                   contactStmt.setString(2,"mobile");
                   contactStmt.setString(3,mobile);
                   contactStmt.executeUpdate();
                }
 
-               if(home!="-"){
+               if(!home.equals("-")){
                   contactStmt.setInt(1,id);
                   contactStmt.setString(2,"home");
                   contactStmt.setString(3,home);
                   contactStmt.executeUpdate();
                }
 
-               if(work!="-"){
+               if(!work.equals("-")){
                   contactStmt.setInt(1,id);
                   contactStmt.setString(2,"work");
                   contactStmt.setString(3,work);
@@ -203,13 +203,11 @@ class PhoneDirectory{
                }
             }else{
                System.out.println("Could not get the last inserted row id.");
-            }  
-         }
-         catch(BatchUpdateException sqlExp){
-            System.out.println("Record Already Exists");
-         }
-         catch(SQLException integritySql){
+            } 
+            conn.commit(); 
+         }catch(SQLException integritySql){
             System.out.println("Record Already Exists integrity");   
+            conn.rollback();
          }finally{
             if(personStmt!=null)
                personStmt.close();
@@ -220,60 +218,85 @@ class PhoneDirectory{
          }
       }
 
-      public void updatePerson(String name,String address,String home,String work,String mobile) throws Exception{
+      public void display() throws Exception{
+         String personSql;
+         Connection conn = null;
+         PreparedStatement personStmt = null;
+
+         personSql = "select * from persons";
+         
+         try{
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            personStmt = conn.prepareStatement(personSql);
+            ResultSet rs = personStmt.executeQuery();
+            System.out.println("-----------------------------------------------------");
+            while(rs.next()){
+               System.out.println("Id       : " + rs.getInt(1)+ "\nName     : "+rs.getString(2) + "\nAddress  : "+ rs.getString(3));
+               System.out.println("-----------------------------------------------------");
+            }
+         }
+         catch(SQLException integritySql){
+            System.out.println("Record Already Exists integrity");   
+         }finally{
+            if(personStmt!=null)
+               personStmt.close();
+            if(conn!=null)
+               conn.close();
+         }
+
+      }
+
+      public void updatePerson(int id,String name,String address,String home,String work,String mobile) throws Exception{
          String personSql,contactSql;
          Connection conn = null;
          PreparedStatement personStmt = null;
          PreparedStatement contactStmt = null;
 
-         personSql = "update persons set name = ?, address = ";
-         contactSql = "insert into contacts values(?,?,?)";
+         personSql = "update persons set";
+         if(!address.equals("-") && !name.equals("-")){
+            personSql += " name = '" +name+"',address = '"+address+"' where id = "+id;
+         }else if(!address.equals("-")){
+            personSql += " address = '"+address+"' where id = "+id;
+         }else if(!name.equals("-")){
+            personSql += "name = '" +name+"' where id = "+id;
+         }
+
+         contactSql = "update contacts set phone = ? where type = ? and person_id = " + id;
          
          try{
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
-            personStmt = conn.prepareStatement(personSql,Statement.RETURN_GENERATED_KEYS);
-            contactStmt = conn.prepareStatement(contactSql);
-            
-            int id = 0;
+            personStmt = conn.prepareStatement(personSql);
+            contactStmt = conn.prepareStatement(contactSql);            
 
-            personStmt.setString(1,name);
-            personStmt.setString(2,address);
-            personStmt.executeUpdate();
+            conn.setAutoCommit(false);
+            if(!name.equals("-") || !address.equals("-")){
+               personStmt.executeUpdate();
+            }
 
-            ResultSet idResult =  personStmt.getGeneratedKeys();
+            if(!home.equals("-")){
+               contactStmt.setString(1,home);
+               contactStmt.setString(2,"home");
+               contactStmt.executeUpdate();
+            }
 
-            if(idResult.next()){
-               id = idResult.getInt(1);
-               if(mobile!="-"){
-                  contactStmt.setInt(1,id);
-                  contactStmt.setString(2,"mobile");
-                  contactStmt.setString(3,mobile);
-                  contactStmt.executeUpdate();
-               }
+            if(!work.equals("-")){
+               contactStmt.setString(1,work);
+               contactStmt.setString(2,"work");
+               contactStmt.executeUpdate();
+            }
 
-               if(home!="-"){
-                  contactStmt.setInt(1,id);
-                  contactStmt.setString(2,"home");
-                  contactStmt.setString(3,home);
-                  contactStmt.executeUpdate();
-               }
-
-               if(work!="-"){
-                  contactStmt.setInt(1,id);
-                  contactStmt.setString(2,"work");
-                  contactStmt.setString(3,work);
-                  contactStmt.executeUpdate();
-               }
-            }else{
-               System.out.println("Could not get the last inserted row id.");
-            }  
-         }
-         catch(BatchUpdateException sqlExp){
-            System.out.println("Record Already Exists");
+            if(!mobile.equals("-")){
+               contactStmt.setString(1,mobile);
+               contactStmt.setString(2,"mobile");
+               contactStmt.executeUpdate();
+            }
+            conn.commit();
          }
          catch(SQLException integritySql){
-            System.out.println("Record Already Exists integrity");   
+            System.out.println(integritySql);   
+            conn.rollback();
          }finally{
             if(personStmt!=null)
                personStmt.close();
@@ -282,5 +305,5 @@ class PhoneDirectory{
             if(conn!=null)
                conn.close();
          }
-      }*/
+      }
 }

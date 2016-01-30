@@ -37,6 +37,7 @@ public class PhoneDirectoryMain{
 
 		try{
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			conn.setAutoCommit(false);
 
 			personSql = "insert into persons(name,address) values (?,?)";
 			contactSql = "insert into contacts values(?,?,?)";
@@ -76,14 +77,14 @@ public class PhoneDirectoryMain{
 							insertContact.setString(3,person.getString("work"));
 							insertContact.executeUpdate();
 						}
+
+						conn.commit();
 					}else{
 						System.out.println("Could not get the last inserted row id.");
 					}	
-				}catch(BatchUpdateException sqlExp){
-					System.out.println("Record Already Exists");
-				}
-				catch(SQLException integritySql){
+				}catch(SQLException integritySql){
 					System.out.println("Record Already Exists integrity");	
+					conn.rollback();
 				}
 			}
 
@@ -100,17 +101,18 @@ public class PhoneDirectoryMain{
 	
 	public static void main(String args[]) throws Exception{
 			Scanner scanner = new Scanner(System.in);
-   			Integer choice;
-   			String name,phoneNumber;
+   			Integer choice,id;
+   			String name,phoneNumber,home,work,mobile,address;
    			PhoneDirectory pndir = new PhoneDirectory();
-      		PhoneDirectoryMain.loadJSONData("persons.json");
+      		//PhoneDirectoryMain.loadJSONData("persons.json");
 
       		do{
 			System.out.println("1. Retrieve the details of the person(s) matching the given name.");
 			System.out.println("2. Retrieve the details of the person(s) by looking for partial match also.");
 			System.out.println("3. Retrieve the details of the person matching the given phone number.");
 			System.out.println("4. Add an entry to phone directory.");
-			System.out.println("5. Exit.");
+			System.out.println("5. Update an entry.");
+			System.out.println("6. Exit.");
 			System.out.print("Enter your choice:");
 
 			choice = new Integer(scanner.nextInt());
@@ -134,28 +136,31 @@ public class PhoneDirectoryMain{
 				case 4 : System.out.println("Enter person details.");
 						 System.out.print("Name and Address : ");
 						 name = scanner.next();
-						 String address = scanner.next();
+						 address = scanner.next();
 						 System.out.println("Contact details. To skip just enter a '-'.");
-						 System.out.print("Home,work and mobile :");
-						 String home = scanner.next();
-						 String work = scanner.next();
-						 String mobile = scanner.next();
+						 System.out.print("Home, work and mobile :");
+						 home = scanner.next();
+						 work = scanner.next();
+						 mobile = scanner.next();
 						 pndir.addPerson(name,address,home,work,mobile);
 						 break;
 
-				/*case 5 : System.out.println("Enter details to update. Incase no need to update give '-'.");
-						 System.out.print("Name and Address: ");
+				case 5 : pndir.display();
+						 System.out.println("Enter details to update. Incase no need to update give '-'.");
+						 System.out.print("Your Id, Name and Address: ");
+						 id = scanner.nextInt();
 						 name = scanner.next();
-						 String address = scanner.next();
+						 address = scanner.next();
 						 System.out.print("Home,work and mobile :");
-						 String home = scanner.next();
-						 String work = scanner.next();
-						 String mobile = scanner.next();
-						 pndir.updatePerson(name,address,home,work,mobile);
-						 break;*/
+						 home = scanner.next();
+						 work = scanner.next();
+						 mobile = scanner.next();
+						 System.out.println(home + "," + work + "," + mobile);
+						 pndir.updatePerson(id,name,address,home,work,mobile);
+						 break;
 			}			 
 
-			}while(choice < 5);
+			}while(choice < 6);
 
 	}
 }
