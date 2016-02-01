@@ -74,10 +74,18 @@ drop trigger if exists updateMedalReceived;
 delimiter $$
 create trigger updateMedalReceived before update on medals for each row
 	begin
-	if new.medal_received<>old.medal_received THEN
+	if (new.medal_received<>old.medal_received) THEN
+		set new.medal_won = new.medal_received;
+	elseif new.medal_received is null and old.medal_received is not null THEN
+		set new.medal_won = null;
+	elseif new.medal_received is not null and old.medal_received is null THEN
 		set new.medal_won = new.medal_received;
 	elseif new.medal_won <> old.medal_won THEN
 		set new.medal_received = new.medal_won;
+	elseif new.medal_won is not null and old.medal_won is null THEN
+		set new.medal_received = new.medal_won;
+	elseif new.medal_won is null THEN
+		set new.medal_received = null;
 	end if;
 	end
 	$$
