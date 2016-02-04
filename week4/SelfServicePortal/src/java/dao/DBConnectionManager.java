@@ -1,0 +1,32 @@
+package dao;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author cb-bhuvana
+ */
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DBConnectionManager {
+    private Connection connection;
+    private final String dbURL = "jdbc:mysql://localhost/self_service_portal";
+    private final String user = "root";
+    private final String pwd = "";
+            
+    public DBConnectionManager() throws ClassNotFoundException, SQLException{
+        Class.forName("com.mysql.jdbc.Driver");
+        this.connection = DriverManager.getConnection(dbURL, user, pwd);
+    }
+     
+    public Connection getConnection(){
+        return this.connection;
+    }
+}

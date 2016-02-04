@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Registration</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/stylesRegister.css" rel="stylesheet" type="text/css"> 
+    </head>
+    <body>
+        <div id="registerForm">
+            <h6>Register to</h6>
+            <h1>Self Service Portal</h1>
+            <form action="Register" method="post">
+                <div class ="inputBlock">
+                    <input type="text" name="firstname" placeholder="First Name">
+                    <input type="text" name="lastname" placeholder = "Last Name">
+                </div>
+                <div class = "inputBlock">
+                    <input type="text" name="email" placeholder = "Email">
+                    <input type="text" name="confirmemail" placeholder="Confirm email">
+                </div>
+                <div class="inputBlock">
+                    <input type="password" name="password" placeholder = "Password">
+                    <input type="password" name="confirmpassword" placeholder="Confirm Password">
+                </div>
+               <div id="registerSubmit">
+                <input type="submit" value="Create an account"><br>
+                <a href="login.html">Have an account already?</a>
+               </div>
+            </form>
+        </div>
+    </body>
+</html>

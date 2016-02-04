@@ -1,0 +1,88 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 4, 2016, 4:49:38 PM
+    Author     : cb-bhuvana
+*/
+
+body{	
+    font-family: 'Open Sans', sans-serif;
+    color: #5E6673;
+}
+
+#registerForm{
+    margin: 5% auto 0;
+    width: 45%;
+}
+
+#registerForm h1{
+    font-size:32px;
+    font-weight:100;
+    text-align: center;
+    margin: 0px;
+}
+
+#registerForm h6{
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    margin:0px;
+}
+
+#registerForm form {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 3%;
+}
+
+.inputBlock{
+    margin: 5% 2.5%;
+    display: block;
+}
+
+.inputBlock input[type="text"], input[type="password"]{
+	text-align:left;
+	position: relative;
+	width:35%;
+	padding:5%;
+        margin-right: 3%;
+	font-family: 'Open Sans', sans-serif;
+	font-weight:300;
+	font-size: 16px;
+        border-radius: 4px;
+	border:1px solid #5E6673;
+	-webkit-appearance:none;
+}
+
+#registerSubmit {
+    padding-top:20px;
+    text-align: center;
+}
+
+input[type="submit"]{
+    width:50%;
+    padding:4%;
+    background: #FD7375;
+    font-family: 'Open Sans', sans-serif;
+    color: #FFF;
+    font-size: 14px;
+    outline: none;
+    font-weight: 400;
+    border-radius: 2px;
+    border: 0.5px;
+    text-transform: uppercase;
+    margin:0px;
+}
+
+#registerForm a{
+    color: #5E6673;
+    font-size: 12px;
+    display: block;
+    margin-top:15px;
+    text-decoration: none;
+}
+
+
