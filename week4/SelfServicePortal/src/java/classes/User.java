@@ -1,13 +1,6 @@
 package classes;
 
 
-import dao.DBConnectionManager;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -52,7 +45,7 @@ public class User {
     }
     
     public void setLastname(String lastname){
-        this.firstname = lastname;
+        this.lastname = lastname;
     }
     
     public void setAddress(String address){

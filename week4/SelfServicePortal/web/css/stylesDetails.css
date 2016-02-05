@@ -8,3 +8,69 @@ and open the template in the editor.
     Author     : cb-bhuvana
 */
 
+body{
+    font-family: 'Open Sans', sans-serif;
+    color: #5E6673;
+    margin:0px;
+}
+
+#detailsForm{
+    text-align: center;
+    width: 40%;
+    margin: 5% auto 0;
+}
+
+#detailsForm h1{
+    font-weight: 100;
+    margin-bottom: 8%;
+}
+
+#headerDiv{
+    background-color: #8792FC;
+    color:#FFF;
+    padding:1.2%;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size:15px;
+}
+#headerDiv span{
+    float: right;
+    margin-right: 20px;
+}
+#headerDiv a{
+    margin-left: 15px;
+    text-decoration: none;
+    color: #FFF;
+}
+
+.detailsList{
+    display:block;
+    padding:10px 0px;
+    height: 35px;
+}
+
+.detailsList .title{
+    float:left;
+    font-size:12px;
+    font-weight:400;
+    width: 35%;
+    margin-right:10%;
+    margin-top: 6px;
+    text-align: right;
+}
+
+.detailsList .value{
+    width: 55%;
+    font-size:22px;
+    font-weight:100;
+    text-align:left;
+    float: left;
+}
+
+#detailsForm a{
+    background-color:#FD7375;
+    color: #FFF;
+    margin-left: 9%;
+    padding:7%;
+    text-decoration: none;
+}

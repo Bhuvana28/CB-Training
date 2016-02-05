@@ -65,18 +65,23 @@ public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/register.html");
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/register.jsp");
         PrintWriter out = response.getWriter();
         String errorMsg = null;
-        if(request.getParameter("firstname") != null && request.getParameter("firstname").isEmpty()){
+        if(request.getParameter("firstname") == null || request.getParameter("firstname").isEmpty()){
             errorMsg = "Enter valid firstname.";
-        }else if(!request.getParameter("email").equals(request.getParameter("confirmemail")) && request.getParameter("email") != null && request.getParameter("email").isEmpty()){
+        }
+        if(request.getParameter("lastname") == null || request.getParameter("lastname").isEmpty()){
+            errorMsg = "Enter valid lastname.";
+        }
+        if(!request.getParameter("email").equals(request.getParameter("confirmemail")) && !(request.getParameter("email") == null || request.getParameter("email").isEmpty())){
             errorMsg  = "Enter valid email and cofirm email.";
-        }else if(!request.getParameter("password").equals(request.getParameter("confirmpassword")) && request.getParameter("password") != null && request.getParameter("password").isEmpty()){
+        }
+        if(!request.getParameter("password").equals(request.getParameter("confirmpassword")) && !(request.getParameter("password") == null || request.getParameter("password").isEmpty())){
             errorMsg  = "Enter valid Password and confirm Password.";
         }
         if(errorMsg!=null){
-            //out.println(errorMsg);
+            out.println(errorMsg);
             rd.include(request, response);
         }
         else{

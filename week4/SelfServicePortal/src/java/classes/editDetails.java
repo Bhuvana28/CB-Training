@@ -76,12 +76,15 @@ public class editDetails extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        
         PrintWriter out = response.getWriter();
-      
+        
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
         String email = user.getEmail();
+        //fetch user db
+        //set attr
+        //
         UsersDao userDao = new UsersDao();
         try{
             if(!user.getFirstname().equals(request.getParameter("firstname"))){

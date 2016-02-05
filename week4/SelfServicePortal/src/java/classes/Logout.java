@@ -58,13 +58,14 @@ public class Logout extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        System.out.println("In logout");
         //invalidate the session if exists
         HttpSession session = request.getSession(false);
         if(session != null){
+            System.out.println("session not null");
             session.invalidate();
         }
-        response.sendRedirect("register.html");
+        response.sendRedirect("register.jsp");
     }
 
     /**

@@ -1,27 +1,22 @@
-package classes;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package classes;
 
-import dao.UsersDao;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author cb-bhuvana
  */
-public class Login extends HttpServlet {
+public class NewServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,7 +29,19 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet NewServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -47,43 +54,9 @@ public class Login extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       System.out.println("in post login");
-       response.setContentType("text/html;charset=UTF-8");
-       RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
-       PrintWriter out = response.getWriter();
-       
-       String email = request.getParameter("email");
-       String password = request.getParameter("password");
-       String errorMsg = null;
-        if(email == null || email.equals("")){
-            errorMsg ="User Email can't be null or empty";
-        }
-        if(password == null || password.equals("")){
-            errorMsg = "Password can't be null or empty";
-        }
-         
-        if(errorMsg != null){
-           // out.println(errorMsg);
-            System.out.println("errorMsg not null .1");
-            rd.include(request, response);
-        }else{
-            try{
-                User user = UsersDao.checkUser(email, password);
-                if(user!=null){
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user",user); 
-                    response.sendRedirect("details.jsp");
-                }else{
-                    errorMsg = "Incorrect email or password.";
-                    //out.println(errorMsg);
-                    rd.include(request, response);
-                }
-            }catch(SQLException ex){
-                System.out.println("Connection close problem");
-            }      
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -94,9 +67,8 @@ public class Login extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
