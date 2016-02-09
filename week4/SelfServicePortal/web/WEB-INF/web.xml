@@ -21,8 +21,12 @@
         <servlet-class>classes.Logout</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>NewServlet</servlet-name>
-        <servlet-class>classes.NewServlet</servlet-class>
+        <servlet-name>Details</servlet-name>
+        <servlet-class>classes.Details</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeactivateAccount</servlet-name>
+        <servlet-class>classes.DeactivateAccount</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -41,8 +45,12 @@
         <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>NewServlet</servlet-name>
-        <url-pattern>/NewServlet</url-pattern>
+        <servlet-name>Details</servlet-name>
+        <url-pattern>/Details</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeactivateAccount</servlet-name>
+        <url-pattern>/DeactivateAccount</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

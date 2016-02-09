@@ -18,17 +18,17 @@
             <h6>Register to</h6>
             <h1>Self Service Portal</h1>
             <form action="Register" method="post">
-                <div class ="inputBlock">
-                    <input type="text" name="firstname" placeholder="First Name">
-                    <input type="text" name="lastname" placeholder = "Last Name">
-                </div>
-                <div class = "inputBlock">
-                    <input type="text" name="email" placeholder = "Email">
-                    <input type="text" name="confirmemail" placeholder="Confirm email">
+                <div class="inputBlock">
+                    <input type="text" name="firstname" placeholder="First Name" required>
+                    <input type="text" name="lastname" placeholder = "Last Name" required>
                 </div>
                 <div class="inputBlock">
-                    <input type="password" name="password" placeholder = "Password">
-                    <input type="password" name="confirmpassword" placeholder="Confirm Password">
+                    <input type="text" name="email" placeholder = "Email" required>
+                    <input type="text" name="confirmemail" placeholder="Confirm email" required>
+                </div>
+                <div class="inputBlock">
+                    <input type="password" name="password" placeholder = "Password" required>
+                    <input type="password" name="confirmpassword" placeholder="Confirm Password" required>
                 </div>
                <div id="registerSubmit">
                 <input type="submit" value="Create an account"><br>

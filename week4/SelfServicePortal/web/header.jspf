@@ -1,0 +1,17 @@
+<%-- any content can be specified here e.g.: --%>
+<%@page import="classes.Address"%>
+<%@page import="classes.User"%>
+<%@ page pageEncoding="UTF-8" %>
+
+        <%
+            response.setHeader("Cache-Control","no-cache,no-store");
+            response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+            response.setHeader("Expires", "0"); 
+            HttpSession SSPSession = request.getSession(false);
+            if(SSPSession!=null){
+                User user = (User) SSPSession.getAttribute("user");
+                Address address = user.getAddress();
+        %>
+        <div id="headerDiv" style="display: block;">
+            Self Service Portal<span>Hi <%=user.getFirstname()%><a href="DeactivateAccount">Deactivate Account</a><a href="Logout">Logout</a></span>
+        </div>

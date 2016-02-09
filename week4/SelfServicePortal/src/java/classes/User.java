@@ -15,9 +15,15 @@ public class User {
     private final String email;
     private String firstname;
     private String lastname;
-    private String address;
+    private Address address = null;
     
-    public User(String firstname,String lastname,String email,String address){
+    public User(String firstname,String lastname,String email){
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+    }
+    
+    public User(String firstname,String lastname,String email,Address address){
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -36,7 +42,7 @@ public class User {
         return email;
     }
     
-    public String getAddress(){
+    public Address getAddress(){
         return address;
     }
     
@@ -48,7 +54,7 @@ public class User {
         this.lastname = lastname;
     }
     
-    public void setAddress(String address){
+    public void setAddress(Address address){
         this.address = address;
     }
 }

@@ -6,7 +6,7 @@ package classes;
  * and open the template in the editor.
  */
 
-import dao.UsersDao;
+import models.UsersDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -17,38 +17,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.AddressDao;
 
 /**
  *
  * @author cb-bhuvana
  */
 public class editDetails extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet editDetails</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet editDetails at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -62,7 +37,18 @@ public class editDetails extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h2>API Request Invalid</h2>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     /**
@@ -76,31 +62,25 @@ public class editDetails extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        PrintWriter out = response.getWriter();
-        
+        PrintWriter out = response.getWriter();   
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
-        String email = user.getEmail();
-        //fetch user db
-        //set attr
-        //
+   
+        //Setting the user attributes to update.
+        Address address = new Address(request.getParameter("addressLine"),request.getParameter("city"),request.getParameter("state"),request.getParameter("zip"),request.getParameter("country"));
+        User userUpdate = new User(request.getParameter("firstname"),request.getParameter("lastname"),user.getEmail(),address);
         UsersDao userDao = new UsersDao();
+        AddressDao addressDao = new AddressDao();
         try{
-            if(!user.getFirstname().equals(request.getParameter("firstname"))){
-                userDao.setFirstname(request.getParameter("firstname"),email);
-                user.setFirstname(request.getParameter("firstname"));
-            }
-            if(!user.getLastname().equals(request.getParameter("lastname"))){
-                userDao.setLastname(request.getParameter("lastname"),email);
-                user.setLastname(request.getParameter("lastname"));
-            }
-            if(!user.getAddress().equals(request.getParameter("address"))){
-                userDao.setAddress(request.getParameter("address"),email);
-                user.setAddress(request.getParameter("address"));
-            }
+            userDao.updateUser(userUpdate);
+            if(user.getAddress()!=null)
+                addressDao.updateAddress(address,user.getEmail());
+            else
+                addressDao.insertAddress(address,user.getEmail());
+            
+            session.setAttribute("user", userUpdate);
             response.sendRedirect("details.jsp");
-        } catch (SQLException ex) {
+        }catch (SQLException ex) {
             Logger.getLogger(editDetails.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

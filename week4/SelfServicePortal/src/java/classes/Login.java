@@ -6,7 +6,7 @@ package classes;
  * and open the template in the editor.
  */
 
-import dao.UsersDao;
+import models.UsersDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -23,20 +23,6 @@ import javax.servlet.http.HttpSession;
  */
 public class Login extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-    }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -49,7 +35,6 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       System.out.println("in post login");
        response.setContentType("text/html;charset=UTF-8");
        RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
        PrintWriter out = response.getWriter();
@@ -70,11 +55,11 @@ public class Login extends HttpServlet {
             rd.include(request, response);
         }else{
             try{
-                User user = UsersDao.checkUser(email, password);
-                if(user!=null){
+                String emailVal = UsersDao.checkUser(email, password);
+                if(emailVal!=null){
                     HttpSession session = request.getSession();
-                    session.setAttribute("user",user); 
-                    response.sendRedirect("details.jsp");
+                    session.setAttribute("email",emailVal); 
+                    response.sendRedirect("Details");
                 }else{
                     errorMsg = "Incorrect email or password.";
                     //out.println(errorMsg);
@@ -98,7 +83,18 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h2>API Request Invalid</h2>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     /**

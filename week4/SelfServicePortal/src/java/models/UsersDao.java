@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package models;
 
 import classes.User;
 import java.sql.Connection;
@@ -19,18 +19,40 @@ import java.util.logging.Logger;
  */
 public class UsersDao {
     
-    public static User checkUser(String email,String password) throws SQLException{
+    public static String checkUser(String email,String password) throws SQLException{
+        String emailValue = null;
+        Connection conn = null;
+        try{
+            DBConnectionManager DBConManager = new DBConnectionManager();
+            conn = DBConManager.getConnection();
+            PreparedStatement searchQuery = conn.prepareStatement("select email from users where email=? and password = ?");
+            searchQuery.setString(1,email);
+            searchQuery.setString(2,password);
+            ResultSet rs = searchQuery.executeQuery();
+            if(rs.next()){
+                emailValue = rs.getString("email");
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+                   Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if(conn != null){
+                conn.close();
+            }
+        }
+        return emailValue;
+    }
+    
+    public User getUserDetails(String email) throws SQLException{
         User user = null;
         Connection conn = null;
         try{
             DBConnectionManager DBConManager = new DBConnectionManager();
             conn = DBConManager.getConnection();
-            PreparedStatement searchQuery = conn.prepareStatement("select firstname,lastname,address,email,password from users where email=? and password = ?");
+            PreparedStatement searchQuery = conn.prepareStatement("select firstname,lastname from users where email=?");
             searchQuery.setString(1,email);
-            searchQuery.setString(2,password);
             ResultSet rs = searchQuery.executeQuery();
             if(rs.next()){
-                user  = new User(rs.getString("firstname"),rs.getString("lastname"),rs.getString("email"),rs.getString("address"));
+                user = new User(rs.getString("firstname"),rs.getString("lastname"),email);
             }
         } catch (ClassNotFoundException | SQLException ex) {
                    Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,18 +94,18 @@ public class UsersDao {
         return state;
     }
     
-    public void setAddress(String address,String email) throws SQLException{
+    public void updateUser(User user) throws SQLException{
         Connection conn = null;
         try{
             DBConnectionManager DBConManager = new DBConnectionManager();
             conn = DBConManager.getConnection();
             conn.setAutoCommit(false);
-            PreparedStatement setAddressQuery = conn.prepareStatement("update users set address = ? where email = ?");
-            setAddressQuery.setString(1, address);
-            setAddressQuery.setString(2, email);
-            setAddressQuery.executeUpdate();
+            PreparedStatement updateUserQuery = conn.prepareStatement("update users set firstname=?,lastname = ? where email = ?");
+            updateUserQuery.setString(1, user.getFirstname());
+            updateUserQuery.setString(2, user.getLastname());
+            updateUserQuery.setString(3, user.getEmail());
+            updateUserQuery.executeUpdate();
             conn.commit();
-            
         } catch (ClassNotFoundException | SQLException ex) {
             if(conn!=null){
                 Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
@@ -96,39 +118,15 @@ public class UsersDao {
         }
     }
     
-    public void setFirstname(String firstname,String email) throws SQLException{
+    public void deleteUser(String email) throws SQLException{
         Connection conn = null;
         try{
             DBConnectionManager DBConManager = new DBConnectionManager();
             conn = DBConManager.getConnection();
             conn.setAutoCommit(false);
-            PreparedStatement setAddressQuery = conn.prepareStatement("update users set firstname = ? where email = ?");
-            setAddressQuery.setString(1, firstname);
-            setAddressQuery.setString(2, email);
-            setAddressQuery.executeUpdate();
-            conn.commit();
-        } catch (ClassNotFoundException | SQLException ex) {
-            if(conn!=null){
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-                conn.rollback();
-            }   
-        }finally{
-            if(conn!=null){
-               conn.close();
-            }
-        }      
-    }
-    
-    public void setLastname(String lastname,String email) throws SQLException{
-        Connection conn = null;
-        try{
-            DBConnectionManager DBConManager = new DBConnectionManager();
-            conn = DBConManager.getConnection();
-            conn.setAutoCommit(false);
-            PreparedStatement setAddressQuery = conn.prepareStatement("update users set lastname = ? where email = ?");
-            setAddressQuery.setString(1, lastname);
-            setAddressQuery.setString(2, email);
-            setAddressQuery.executeUpdate();
+            PreparedStatement deleteUserQuery = conn.prepareStatement("delete from users where email = ?");
+            deleteUserQuery.setString(1, email);
+            deleteUserQuery.executeUpdate();
             conn.commit();
         } catch (ClassNotFoundException | SQLException ex) {
             if(conn!=null){

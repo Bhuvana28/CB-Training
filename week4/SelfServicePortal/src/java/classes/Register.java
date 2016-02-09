@@ -6,7 +6,7 @@ package classes;
  * and open the template in the editor.
  */
 
-import dao.UsersDao;
+import models.UsersDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -24,20 +24,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Register extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-    }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -50,7 +36,18 @@ public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h2>API Request Invalid</h2>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     /**
@@ -74,10 +71,10 @@ public class Register extends HttpServlet {
         if(request.getParameter("lastname") == null || request.getParameter("lastname").isEmpty()){
             errorMsg = "Enter valid lastname.";
         }
-        if(!request.getParameter("email").equals(request.getParameter("confirmemail")) && !(request.getParameter("email") == null || request.getParameter("email").isEmpty())){
+        if(!request.getParameter("email").equals(request.getParameter("confirmemail")) || (request.getParameter("email") == null || request.getParameter("email").isEmpty())){
             errorMsg  = "Enter valid email and cofirm email.";
         }
-        if(!request.getParameter("password").equals(request.getParameter("confirmpassword")) && !(request.getParameter("password") == null || request.getParameter("password").isEmpty())){
+        if(!request.getParameter("password").equals(request.getParameter("confirmpassword")) || (request.getParameter("password") == null || request.getParameter("password").isEmpty())){
             errorMsg  = "Enter valid Password and confirm Password.";
         }
         if(errorMsg!=null){

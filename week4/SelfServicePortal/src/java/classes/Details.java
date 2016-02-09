@@ -7,16 +7,20 @@ package classes;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import models.AddressDao;
+import models.UsersDao;
 
 /**
  *
  * @author cb-bhuvana
  */
-public class NewServlet extends HttpServlet {
+public class Details extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,10 +39,10 @@ public class NewServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");            
+            out.println("<title>Servlet Details</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Details at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,7 +60,25 @@ public class NewServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("email");
+        UsersDao userDao = new UsersDao();
+        AddressDao addressDao = new AddressDao();
+        try{
+            User user = userDao.getUserDetails(email);
+            Address address = addressDao.getAddressDetails(email);
+            user.setAddress(address);
+            if(user!=null){
+                session.setAttribute("user",user); 
+                response.sendRedirect("details.jsp");
+            }else{
+                System.out.println("Error in details servlet");
+                response.sendRedirect("Logout");
+            }
+        }catch(SQLException ex){
+                System.out.println("Connection close problem");
+        }
     }
 
     /**

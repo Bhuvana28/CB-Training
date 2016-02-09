@@ -4,8 +4,8 @@
     Author     : cb-bhuvana
 --%>
 
+<%@page import="classes.Address"%>
 <%@page session="false" %>
-<%@page import= "javax.servlet.http.HttpSession"%>
 <%@page import="classes.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -16,17 +16,8 @@
         <link href="css/stylesDetails.css" rel="stylesheet" type="text/css"> 
     </head>
     <body>
-        <%
-            response.setHeader("Cache-Control","no-cache,no-store");
-            response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
-            response.setHeader("Expires", "0"); 
-            HttpSession SSPSession = request.getSession(false);
-            if(SSPSession!=null){
-                User user = (User) SSPSession.getAttribute("user");
-        %>
-        <div id="headerDiv" style="display: block;">
-            Self Service Portal<span>Hi <%=user.getFirstname()%><a href="Logout">Logout</a></span>
-        </div>
+        
+        <%@include file="header.jspf"%>
         <div id ="detailsForm">
             <h1>Welcome to Self Service Portal</h1> 
             <div class="detailsList">
@@ -40,14 +31,16 @@
             <div class ="detailsList">
                 <span class="title">ADDRESS</span>
                 <span class="value">
-                    <% if(user.getAddress() != null){ %>
-                        <%=user.getAddress()%>
+                    <% if(address != null){ %>
+                    <%=address.getAddressLine()%><br>
+                    <%=address.getCity()%>,<%=address.getState()%><br>
+                    <%=address.getZip()%>,<%=address.getCountry()%>
                     <% }else { %>
                         --NA--
                         <% } %>
                </span>
             </div>
-            <a href="editDetails.jsp">Edit Details</a> 
+            <a href="editDetails.jsp"><button>Edit Details</button></a> 
         </div>
         
         <%}else{
