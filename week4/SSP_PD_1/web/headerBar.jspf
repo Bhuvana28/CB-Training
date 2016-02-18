@@ -1,0 +1,45 @@
+<%-- any content can be specified here e.g.: --%>
+<%@page import="java.io.PrintWriter"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="classes.Contact"%>
+<%@page import="classes.Address"%>
+<%@page import="classes.User"%>
+<%@ page pageEncoding="UTF-8" %>
+
+
+<head>
+    <link href="css/headerBarStyles.css" rel="stylesheet" type="text/css"> 
+</head>
+
+<%
+    response.setHeader("Cache-Control","no-cache,no-store");
+    response.setHeader("Pragma", "no-cache"); 
+    response.setHeader("Expires", "0"); 
+    RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
+    PrintWriter printWriter = response.getWriter();
+    
+    HttpSession httpSession = request.getSession(false);
+    User user;
+    Address address;
+    ArrayList<Contact> contacts;
+    
+    user = (User) httpSession.getAttribute("user");
+    if(user == null){
+        printWriter.println("<h1 style='color:red;text-align:center;font-weight: 200;font-size: 20px;'>Session Invalid</h1>");
+        rd.include(request, response);
+        return;
+    }
+                
+    address = user.getAddress();
+    System.out.println(address);
+    contacts = user.getUserContacts();
+%>
+
+<%--<div id="headerDiv" style="display: block;">
+    <form action="Details" method="get"><input type="submit" value="Self Service Portal"></form><span>Hi <%=user.getFirstname()%><a href="deactivateAccount">Deactivate Account</a><a href="logout">Logout</a></span>
+</div>
+--%>
+
+<div id="headerDiv" style="display: block;">
+    <a href="Details">Self Service Portal</a><span>Hi <%=user.getFirstname()%><a href="DeactivateAccount">Deactivate Account</a><a href="Logout">Logout</a></span>
+</div>

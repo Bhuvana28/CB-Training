@@ -1,0 +1,28 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 18, 2016, 1:06:35 PM
+    Author     : cb-bhuvana
+*/
+
+.detailsPhoneTable{
+    text-align: center;
+}
+
+.detailsPhoneTable table{
+    width:100%;
+}
+
+.detailsPhoneTable table form input[type="submit"]{
+    width: 50%;
+    background: #8792fc;
+    font-family: 'Open Sans', sans-serif;
+    color: #FFF;
+    outline: none;
+    border-radius: 3px;
+    border: 0.5px;
+    font-size: small;
+}

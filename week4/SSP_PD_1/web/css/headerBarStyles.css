@@ -1,0 +1,35 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 18, 2016, 9:09:44 AM
+    Author     : cb-bhuvana
+*/
+
+#headerDiv{
+    background-color: #8792FC;
+    color:#FFF;
+    padding:1.2%;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size:15px;
+}
+#headerDiv span{
+    float: right;
+    margin-right: 20px;
+}
+#headerDiv a{
+    margin-left: 15px;
+    text-decoration: none;
+    color: #FFF;
+}
+
+#headerDiv input[type="submit"]{
+    background: #FD7375;
+    font-family: 'Open Sans', sans-serif;
+    color: #FFF;
+    font-size: 15px;
+    border: 0.5px;
+}

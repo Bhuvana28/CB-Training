@@ -1,0 +1,49 @@
+<%-- any content can be specified here e.g.: --%>
+<%@page import="classes.Contact"%>
+<%@page import="classes.Address"%>
+<%@page import="classes.PhoneNumber"%>
+<%@ page pageEncoding="UTF-8" %>
+
+<div class="detailsPhoneTable">
+    <h1> Phone Directory </h1>
+        <%  
+            if(contacts.isEmpty()){
+        %>
+            <h3> No records </h3>    
+        <%}
+            else{
+        %>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th></th>
+                </tr>
+                <%
+                    for(Contact contact : contacts){
+                %>
+                
+                    <tr>
+                    <td><%=contact.getContactName()%></td>
+                    <% Address contactAddress = contact.getContactAddress(); %>
+                    <td><%= contactAddress==null?"NA":contactAddress%></td>
+                    <td>
+                        <%for(PhoneNumber phoneNumber : contact.getContactPhoneNumbers()){%>
+                        <%= phoneNumber.toString()%>
+                        <%}%>
+                    </td>
+                    <td>
+                        <form method="get" action="EditContact">
+                            <input type="hidden" name="contactId" value="<%=contact.getContactId()%>" >
+                            <input type="submit" value ="Update">
+                        </form>
+                    </td>
+                    </tr>
+                <%}%>
+            </table>
+        <%
+            }
+        %>
+</div>
+

@@ -1,0 +1,110 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 18, 2016, 9:09:01 AM
+    Author     : cb-bhuvana
+*/
+
+body{
+    font-family: 'Open Sans', sans-serif;
+    color: #5E6673;
+}
+
+.detailsDiv{
+    width:100%;
+    margin:0px;
+    display:block;
+}
+
+.detailsForm{
+    float: left;
+    text-align: center;
+    width: 50%;
+    margin: 0 auto 0;
+}
+
+h1{
+    text-align: center;
+    font-weight: 100;
+    margin:2% 0;
+}
+
+.detailsForm h2{
+    font-weight: 100;
+    margin: 1%;
+}
+
+
+.detailsList{
+    display:block;
+    padding:5px 0px;
+    height: 42px;
+}
+
+.detailsList .title{
+    float:left;
+    font-size:12px;
+    font-weight:400;
+    width: 35%;
+    margin-right:5%;
+    margin-top: 4px;
+    text-align: right;
+}
+
+.detailsList .value{
+    width: 55%;
+    font-size:18px;
+    font-weight:100;
+    text-align:left;
+    float: left;
+}
+
+button{
+    background-color: #FD7375;
+    color: #FFF;    
+    padding: 2%;
+    text-decoration: none;
+    font-weight: 400;
+    border-radius: 6.5px;
+    border: 0.5px solid;
+    width: 20%;
+    font-size: 15px;
+    margin-top: 8px;
+}
+
+#phoneDirectory input[type="text"]{
+    font-size: 16px;
+    padding: 1.7%;
+    border: 1px solid grey;
+    border-radius: 6.5px;
+    margin-right: 20px;
+}
+
+
+.detailsDiv input[type="submit"]{
+    width: 20%;
+    padding: 1.7%;
+    background: #FD7375;
+    font-family: 'Open Sans', sans-serif;
+    color: #FFF;
+    font-size: 15px;
+    outline: none;
+    font-weight: 400;
+    border-radius: 5px;
+    border: 0.5px;
+    margin-left:-1%;
+    margin-bottom: 5px;
+    margin-top: 1.5%;
+}
+
+.detailsPhoneTable{
+    width: 100%;
+    clear: both;
+    display: inline-block;
+    text-align: center;
+    margin-top: 20px;
+}
+

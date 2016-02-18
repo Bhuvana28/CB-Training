@@ -1,0 +1,82 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 4, 2016, 6:00:22 PM
+    Author     : cb-bhuvana
+*/
+
+body{
+    font-family: 'Open Sans', sans-serif;
+    color: #5E6673;
+    margin:0px;
+}
+
+#detailsForm{
+    text-align: center;
+    width: 40%;
+    margin: 5% auto 0;
+}
+
+#detailsForm h1{
+    font-weight: 100;
+    margin-bottom: 8%;
+}
+
+#headerDiv{
+    background-color: #8792FC;
+    color:#FFF;
+    padding:1.2%;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size:15px;
+}
+#headerDiv span{
+    float: right;
+    margin-right: 20px;
+}
+#headerDiv a{
+    margin-left: 15px;
+    text-decoration: none;
+    color: #FFF;
+}
+
+.detailsList{
+    display:block;
+    padding:10px 0px;
+    height: 35px;
+}
+
+.detailsList .title{
+    float:left;
+    font-size:12px;
+    font-weight:400;
+    width: 35%;
+    margin-right:10%;
+    margin-top: 6px;
+    text-align: right;
+}
+
+.detailsList .value{
+    width: 55%;
+    font-size:22px;
+    font-weight:100;
+    text-align:left;
+    float: left;
+}
+
+#detailsForm button{
+    background-color: #FD7375;
+    color: #FFF;
+    margin-left: 19%;
+    padding: 2.5%;
+    margin-top: 20px;
+    text-decoration: none;
+    font-size: 17px;
+    width: 30%;
+    font-weight: 400;
+    border-radius: 6.5px;
+    border: 0.5px solid;
+}
